@@ -1,6 +1,7 @@
 <head>
 <script src="<?php echo base_url()?>/public/news/js/sweet-alert.min.js"></script>
-<link rel="stylesheet" href="<?php echo base_url()?>/public/news/css/example.css">
+<!--注释样式冲突-->
+<!-- <link rel="stylesheet" href="<?php echo base_url()?>/public/news/css/example.css"> -->
 <!-- This is what you need -->
 <script src="<?php echo base_url()?>/public/news/js/sweet-alert.js"></script>
 <link rel="stylesheet" href="<?php echo base_url()?>/public/news/css/sweet-alert.css">
