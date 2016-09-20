@@ -1,3 +1,10 @@
+<head>
+<script src="<?php echo base_url()?>/public/news/js/sweet-alert.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url()?>/public/news/css/example.css">
+<!-- This is what you need -->
+<script src="<?php echo base_url()?>/public/news/js/sweet-alert.js"></script>
+<link rel="stylesheet" href="<?php echo base_url()?>/public/news/css/sweet-alert.css">
+</head>
 <div class="shop_hd_topNav">
 			<div class="shop_hd_topNav_all">
 				<!-- Header TopNav Left -->
