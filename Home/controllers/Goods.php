@@ -12,6 +12,7 @@ class Goods extends CI_Controller {
 	 */
 	public function goods()
 	{
+		
 		$this->load->view('goods/goods');
 	}
 }
