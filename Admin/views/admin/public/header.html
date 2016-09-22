@@ -9,14 +9,9 @@
     <link rel="stylesheet" href="<?php echo base_url()?>public/admin/css/font-awesome-ie7.min.css" />
 
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
-
-
-
     <link rel="stylesheet" href="<?php echo base_url()?>public/admin/css/ace.min.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>public/admin/css/ace-rtl.min.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>public/admin/css/ace-skins.min.css" />
-
-
     <link rel="stylesheet" href="<?php echo base_url()?>public/admin/css/ace-ie.min.css" />
 
     <script src="<?php echo base_url()?>/public/admin/alert/js/sweet-alert.min.js"></script>
@@ -260,7 +255,7 @@
                         <img class="nav-user-photo" src="<?php echo base_url()?>public/admin/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									Jason
+									<?php echo $admin_name?>
 								</span>
 
                         <i class="icon-caret-down"></i>
@@ -284,7 +279,7 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="#">
+                            <a href="<?= site_url()?>/login/login_out">
                                 <i class="icon-off"></i>
                                 退出
                             </a>

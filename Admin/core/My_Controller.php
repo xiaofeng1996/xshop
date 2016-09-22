@@ -6,8 +6,11 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         /*     引入公共文件        */
-
-        $this -> load ->view('admin/public/header.html');
+        $admin_name['admin_name'] = $this->session->userdata('admin_name');
+        if($admin_name{'admin_name'}==""){
+            echo "<script>alert('请先登录');location.href='".site_url('login/index')."'</script>";
+        }
+        $this -> load ->view('admin/public/header.html',$admin_name);
         $this -> load ->view('admin/public/menu.html');
     }
 }
