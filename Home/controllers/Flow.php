@@ -12,7 +12,6 @@ class Flow extends CI_Controller {
 	 */
 	public function flow()
 	{
-
 		//$this->session->set_userdata('uid','1');//最后需要删除
 		$uid=$this->session->userdata('uid');
 		//判断是否登录状态
@@ -145,7 +144,7 @@ class Flow extends CI_Controller {
 		$uid=$this->session->userdata('uid');
 		//判断是否登录状态
 		if(!empty($uid)){
-			
+
 		}else{
 			$shop_cart=$this->session->userdata('shop_cart');//购物session
 			$d_id=explode(',', $id);
