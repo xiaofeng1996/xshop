@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $url=substr('http://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,strpos('http://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],'index.php') );
-//echo $url;
+//echo $url;die;
 $config['base_url'] = $url;
 
 /*

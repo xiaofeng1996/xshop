@@ -12,7 +12,17 @@ class Goods extends CI_Controller {
 	 */
 	public function goods()
 	{
-		
-		$this->load->view('goods/goods');
+		 $id=$this->input->get('id');
+		//接受搜索的值
+		$gid=$this->uri->segment(3);  //商品的id
+		if(empty($gid))
+		{
+			$arr['list']=$this->db->join('x_goods','x_goods.cats_id=x_category.cat_id')->where("cats_id='$id'")->get('x_category')->row_array();
+		}
+		else if(empty($id))
+		{
+			$arr['list']=$this->db->where("goods_id='$gid'")->get('x_goods')->row_array();
+		}
+		$this->load->view('goods/goods',$arr);
 	}
 }
