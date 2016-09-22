@@ -73,7 +73,7 @@
 				<h3>用户登录</h3>
 			</div>
 			<div class="form-bd">
-				<form action="" method="POST">
+				<form action="<?php echo site_url('Login/login')?>" method="POST">
 					<dl>
 						<dt>用户名</dt>
 						<dd><input type="text" name="user" class="text" /></dd>
@@ -84,8 +84,7 @@
 					</dl>
 					<dl>
 						<dt>验证码</dt>
-						<dd><input type="text" name="code" class="text" size="10" style="width:58px;"> <img src="<?php echo base_url(); ?>public/home/images/code.png" alt="" align="absmiddle" style="position:relative;top:-2px;"/> <a href="" style="color:#999;">看不清，换一张</a></dd>
-					</dl>
+						<dd><input type="text" name="code" class="text" size="10" style="width:58px;"> <img src="<?php echo base_url('index.php/login/yzm')?>" width="100" height="40" onclick=this.src="<?php echo base_url('index.php/login/yzm/')?>"+Math.random()> <a href="" style="color:#999;">看不清，换一张</a></dd>					</dl>
 					<dl>
 						<dt>&nbsp;</dt>
 						<dd><input type="submit" value="登  录" class="submit"/> <a href="" class="forget">忘记密码?</a></dd>

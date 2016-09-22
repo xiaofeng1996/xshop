@@ -10,7 +10,22 @@
 			<div class="shop_hd_topNav_all">
 				<!-- Header TopNav Left -->
 				<div class="shop_hd_topNav_all_left">
-					<p>您好，欢迎来到<b><a href="/">ShopCZ商城</a></b>[<a href="<?php echo site_url('login/login'); ?>">登录</a>][<a href="<?php echo site_url('register/register'); ?>">注册</a>]</p>
+					<p>您好，欢迎来到<b><a href="/">ShopCZ商城</a></b>
+						<?php
+                          if(empty($_SESSION['uname']))
+						  { ?>
+							  [<a href="<?php echo site_url('login/login'); ?>">登录</a>]
+						<?php  } else { ?>
+							<font color="#7fff00"><?php echo $_SESSION['uname'];?></font>
+					<?php	  }
+                            if(empty($_SESSION['uname']))
+							{  ?>
+								[<a href="<?php echo site_url('register/register'); ?>">注册</a>]
+						<?php	} else { ?>
+								<a href="<?php echo site_url('index/quit')?>">退出</a>
+						<?php	}
+                          ?>
+					</p>
 				</div>
 				<!-- Header TopNav Left End -->
 

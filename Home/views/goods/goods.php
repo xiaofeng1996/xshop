@@ -58,7 +58,7 @@
 				<script type="text/javascript" src="js/lib.js"></script>
 				<script type="text/javascript" src="js/163css.js"></script>
 				<div id="preview">
-					<div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="<?php echo base_url(); ?>public/home/images/img04.jpg" jqimg="<?php echo base_url(); ?>public/home/images/img04.jpg" width="350">
+					<div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="<?php echo base_url('public/home/').$list['goods_img']?>" jqimg="<?php echo base_url().$list['goods_img']?>" width="350">
 						</div>
 						<div id="spec-n5">
 							<div class=control id="spec-left">
@@ -132,11 +132,11 @@
 			<div class="shop_goods_show_right">
 				<ul>
 					<li>
-						<strong style="font-size:14px; font-weight:bold;">联想 K900 3G手机（炫酷银）WCDMA/GSM</strong>
+						<strong style="font-size:14px; font-weight:bold;"><?php echo $list['goods_name']?></strong>
 					</li>
 					<li>
 						<label>价格：</label>
-						<span><strong>200.00</strong>元</span>
+						<span><strong><?php echo $list['shop_price']?></strong>元</span>
 					</li>
 					<li>
 						<label>运费：</label>
