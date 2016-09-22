@@ -62,15 +62,18 @@
 							<li><label><span>*</span>收货人姓名：</label><input type="text" class="form-text" value="望乐乐" /></li>
 							<li><label><span>*</span>所在地：</label><input type="text" class="form-text" value="中国" /></li>
 							<li><label>详细地址：</label>
-									<select>
-										<option value="">北京</option>
-									</select>
-									<select>
-										<option value="">北京</option>
-									</select>
-									<select>
-										<option value="">昌平</option>
-									</select>
+								<select class="province" onchange="getCity()">
+									<option value="-1">请选择..</option>
+									<?php foreach($province as $k=>$v){?>
+										<option value="<?php echo $v['region_id'];?>"><?php echo $v['region_name'];?></option>
+									<?php }?>
+								</select>
+								<select class="city" onchange="getDistrict()">
+									<option value="-1">请选择..</option>
+								</select>
+								<select class="district">
+									<option value="-1">请选择..</option>
+								</select>
 							</li>
 							<li><label>邮编：</label><input type="text" class="form-text" value="100000" /></li>
 							<li><label>电话：</label><input type="text" class="form-text" value="101-888888" /></li>
@@ -105,3 +108,30 @@
 	<!-- Footer End -->
 </body>
 </html>
+<script>
+	function getCity(){
+		var id = $('.province').val();
+		$.get('<?php echo site_url("Address/getCity");?>',{id:id},function(msg){
+			if(msg != 0){
+				var str='';
+				$.each(msg,function(index,item){
+					str+="<option value='"+item.region_id+"'>"+item.region_name+"</option>";
+					$('.city').html(str);
+				})
+				getDistrict();
+			}
+		},'json')
+	}
+	function getDistrict(){
+		var id = $('.city').val();
+		$.get('<?php echo site_url("Address/getCity");?>',{id:id},function(msg){
+			if(msg != 0){
+				var str='';
+				$.each(msg,function(index,item){
+					str+="<option value='"+item.region_id+"'>"+item.region_name+"</option>";
+					$('.district').html(str);
+				})
+			}
+		},'json')
+	}
+</script>
