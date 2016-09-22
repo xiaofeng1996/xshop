@@ -72,18 +72,21 @@
 				<div id="new_add_shdz_contents" style="display:none;" class="shop_bd_shdz_new clearfix">
 					<div class="title">新增收货地址</div>
 					<div class="shdz_new_form">
-						<form>
+						<form action="">
 							<ul>
 								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" class="name" /></li>
 								<li><label for=""><span>*</span>所在地址：</label>
-									<select>
-										<option value="">北京</option>
+									<select class="province" onchange="getCity()">
+										<option value="-1">请选择..</option>
+										<?php foreach($province as $k=>$v){?>
+												<option value="<?php echo $v['region_id'];?>"><?php echo $v['region_name'];?></option>
+										<?php }?>
 									</select>
-									<select>
-										<option value="">北京</option>
+									<select class="city" onchange="getDistrict()">
+										<option value="-1">请选择..</option>
 									</select>
-									<select>
-										<option value="">昌平</option>
+									<select class="district">
+										<option value="-1">请选择..</option>
 									</select>
 								</li>
 								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" /></li>
@@ -92,7 +95,7 @@
 								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" /></li>
 								<li><label for="">&nbsp;</label><input type="submit" value="增加收货地址" /></li>
 							</ul>
-						</from>
+						</form>
 					</div>
 				</div>
 				<!-- 新增收货地址 End -->
@@ -133,3 +136,30 @@
 	</script>
 </body>
 </html>
+<script>
+	function getCity(){
+		var id = $('.province').val();
+		$.get('<?php echo site_url("Address/getCity");?>',{id:id},function(msg){
+			if(msg != 0){
+				var str='';
+				$.each(msg,function(index,item){
+					str+="<option value='"+item.region_id+"'>"+item.region_name+"</option>";
+					$('.city').html(str);
+				})
+				getDistrict();
+			}
+		},'json')
+	}
+	function getDistrict(){
+		var id = $('.city').val();
+		$.get('<?php echo site_url("Address/getCity");?>',{id:id},function(msg){
+			if(msg != 0){
+				var str='';
+				$.each(msg,function(index,item){
+					str+="<option value='"+item.region_id+"'>"+item.region_name+"</option>";
+					$('.district').html(str);
+				})
+			}
+		},'json')
+	}
+</script>
