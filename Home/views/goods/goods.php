@@ -146,7 +146,7 @@
 					<li style="padding:20px 0;">
 						<label>&nbsp;</label>
 						<!--商品id-->
-						<input type="hidden" value='1' id="goods_id" />
+						<input type="hidden" value='4' id="goods_id" />
 						<span><a href="javascript:void(0)" class="goods_sub goods_sub_gou" id="goods_cart">加入购物车</a></span>
 					</li>
 				</ul>
@@ -197,23 +197,6 @@
 							</div>
 						</li>
 
-						<li class="clearfix">
-							<div class="goods_name"><a href="">Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-							<div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a href=""><img src="<?php echo base_url(); ?>public/home/images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-							<div class="goods_xiaoliang">
-								<span class="goods_xiaoliang_link"><a href="">去看看</a></span>
-								<span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-							</div>
-						</li>
-
-						<li class="clearfix">
-							<div class="goods_name"><a href="">Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-							<div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a href=""><img src="<?php echo base_url(); ?>public/home/images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-							<div class="goods_xiaoliang">
-								<span class="goods_xiaoliang_link"><a href="">去看看</a></span>
-								<span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-							</div>
-						</li>
 
 					</ul>
 				</div>
@@ -236,23 +219,7 @@
 							</div>
 						</li>
 
-						<li class="clearfix">
-							<div class="goods_name"><a href="">Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-							<div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a href=""><img src="<?php echo base_url(); ?>public/home/images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-							<div class="goods_xiaoliang">
-								<span class="goods_xiaoliang_link"><a href="">去看看</a></span>
-								<span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-							</div>
-						</li>
-
-						<li class="clearfix">
-							<div class="goods_name"><a href="">Gap经典弹力纯色长袖T恤|000891347|原价149元</a></div>
-							<div class="goods_pic"><span class="goods_price">¥ 279.00 </span><a href=""><img src="<?php echo base_url(); ?>public/home/images/89a6d6466b00ae32d3c826b9ec639084.jpg_small.jpg" /></a></div>
-							<div class="goods_xiaoliang">
-								<span class="goods_xiaoliang_link"><a href="">去看看</a></span>
-								<span class="goods_xiaoliang_nums">已销售<strong>99</strong>笔</span>
-							</div>
-						</li>
+				
 
 					</ul>
 				</div>
@@ -315,11 +282,28 @@
 		var good_nums=$("#good_nums").val();
 		$.post("<?php echo site_url('flow/shop_cart') ?>",{goods_id:goods_id,good_nums:good_nums},function(m){
 			if(m=='1'){
-				window.location.href="<?php echo site_url('flow/flow'); ?>";
+				//取消确定
+				swal({
+				  title: "加入购物车成功,是否查看购物车?",
+				  text: "You will not be able to recover this imaginary file!",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "确定",
+				  closeOnConfirm: false
+				},
+				function(){
+				  swal("查看购物车!", "Your id prefect", "success");
+				  window.location.href="<?=site_url('flow/flow'); ?>"
+				});
+			}else if(m=='2'){
+				sweetAlert('加入购物车失败');
 			}else{
-				sweetAlert('加入购物车失败,请重新加入');
+				sweetAlert('加入购物车失败')
 			}
 		});
 	})
+
+
 </script>
 </html>
