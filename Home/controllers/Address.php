@@ -5,7 +5,6 @@ class Address extends CI_Controller {
 	public function  __construct()
 	{
 		parent::__construct();
-		$this->load->model("address_model");
 	}
 	/**
 	 * 收货地址
