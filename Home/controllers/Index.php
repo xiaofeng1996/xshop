@@ -17,7 +17,9 @@ class Index extends CI_Controller {
 		   $arr=$this->nolimit($dd,0);
 		  //商品列表
 		 $arr2=$this->db->limit(6)->get('x_goods')->result_array();
-		$this->load->view('index/index',['list'=>$arr,'show'=>$arr2]);
+		   //热词搜搜
+		  $hot=$this->db->limit(5)->get('x_hot')->result_array();
+		$this->load->view('index/index',['list'=>$arr,'show'=>$arr2,'hot'=>$hot]);
 	}
 	//无限极
 	public function nolimit($data,$pid=0){

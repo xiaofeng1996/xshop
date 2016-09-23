@@ -13,7 +13,7 @@
 								<?php
 								  foreach($value['son'] as $val) {  ?>
 									  <dl class="clearfix">
-										  <dt><a href="女装" href=""><font color="#a52a2a"><?php echo $val['cat_name']?></font></a></dt>
+										  <dt><a href="" href=""><font color="#a52a2a"><?php echo $val['cat_name']?></font></a></dt>
 										  <dd>
 										   <?php
 										   foreach($val['son'] as $va) { ?>

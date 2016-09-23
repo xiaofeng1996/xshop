@@ -58,7 +58,7 @@
 				<script type="text/javascript" src="js/lib.js"></script>
 				<script type="text/javascript" src="js/163css.js"></script>
 				<div id="preview">
-					<div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="<?php echo base_url('public/home/').$list['goods_img']?>" jqimg="<?php echo base_url().$list['goods_img']?>" width="350">
+					<div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="<?php echo base_url().$list['goods_img']?>" jqimg="<?php echo base_url().$list['goods_img']?>" width="350">
 						</div>
 						<div id="spec-n5">
 							<div class=control id="spec-left">
