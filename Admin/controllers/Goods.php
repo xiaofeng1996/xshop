@@ -16,10 +16,68 @@ class Goods extends MY_Controller {
     /*
      * 首页展示界面
      */
-	public function index()
+	public function index($offset="")
 	{
-		
-		$this->load->view('admin/goods.html');
+			$cat_id = $this -> input -> post('cat_id');
+			$brand_id = $this -> input -> post('brand_id');
+			$keywords = $this -> input -> post('keywords');
+		//$page = isset($_GET['page']) ? Input::get('page') : 1 ;
+			$page1 =  substr($_SERVER['PHP_SELF'],-1);
+			$page = ($page1=='/')?1:$page1;
+			//echo $page;die;
+			$where = '1';
+			if(!empty($cat_id)){
+				$where .= " and cat_id = '$cat_id'";
+			}
+			if(!empty($brand_id)){
+				$where .= " and brand_id = '$brand_id'";
+			}
+			if(!empty($keywords)) {
+				$where .= " and `keywords` like '%$keywords%'";
+			}
+			//echo $where;die;
+			//加载分页类
+			$this->load->library('pagination');
+			//请求的URL地址
+			$config['base_url']=site_url('goods/index');
+			//查询出所有的条数
+			$config['total_rows']=$this->db->count_all('goods');
+			//设置每页显示的条数
+			$config['per_page']=4;
+			//传递的页码参数的值
+			$config['uri_segment'] = 4;
+			//修改显示
+			$config['first_link']='首页';
+			$config['last_link']='末页';
+			$config['next_link'] = '下一页';
+			$config['prev_link'] = '上一页';
+			$config['use_page_numbers'] = TRUE;
+			//初始化分页类
+			$this->pagination->initialize($config);
+			//生成分页字符串
+			$data['pagestr']=$this->pagination->create_links();
+			//print_r($data);die;
+			$limit=$config['per_page'];
+			$offset1 = $offset*$page;
+		//print_r($limit);die;
+		//echo $where;die;
+			$where1 = strlen($where);
+			//echo $where1;die;
+			if($where1 == 1){
+				$data['data'] = $this -> db -> where('is_delete',0)->limit($limit,$offset1) ->get('goods')->result_array();
+			}else{
+				$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('goods')->result_array();
+			}
+
+		//echo $this->db->last_query();die;
+		//	print_r($data);die;
+			//查询出分类 为搜索准备
+			$data1=$this->db->get('category')->result_array();
+			$data['type'] = $this->nodetree($data1,0);
+			//查询出商品品牌 为搜索准备
+			$data['brand'] = $this -> db ->get('brand')->result_array();
+			$this->load->view('admin/goods/goods.html',$data);
+
 	}
 	
 	/*
@@ -48,6 +106,14 @@ class Goods extends MY_Controller {
 				@$attr_name = $data['attr_name'];
 				unset($data['y_id']);
 				unset($data['attr_name']);
+				unset($data['goods_sn']);
+				//如果不填自动生成货号
+				if($this->input->post('goods_sn')){
+					$data['goods_sn']=$this->input->post('goods_sn');
+				}else{
+					$data['goods_sn']='sn'.uniqid();
+				}
+
 				$data['add_time'] = date("Y-m-d H:i:s",time());
 				$data['goods_img'] = $config['upload_path'].$filename;
 				$res = $this->db->insert('x_goods', $data);
@@ -88,7 +154,7 @@ class Goods extends MY_Controller {
 			//查询商品类型做sku
 			$datas['goods_type'] = $this ->db -> get('goods_type')->result_array();
 
-			$this->load->view('admin/add_goods.html',$datas);
+			$this->load->view('admin/goods/add_goods.html',$datas);
 		}
 	}
 
