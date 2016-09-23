@@ -12,8 +12,6 @@
 		}
 	</style>
 </head>
-
-
 		<!-- TopHeader Center -->
 		<div class="shop_hd_header">
 			<div class="shop_hd_header_logo"><h1 class="logo"><a href="/"><img src="<?php echo base_url(); ?>public/home/images/logo.png" alt="ShopCZ" /></a><span>ShopCZ</span></h1></div>
@@ -33,7 +31,7 @@
 				<div class="search_tag">
 					<?php
 					 foreach($hot as $vv) {  ?>
-					  <a href="<?php echo site_url('goods/goods')?>"/<?php echo $vv['goodsid']?>><?php echo $vv['goodsname']?></a>
+					  <a href="<?php echo site_url('goods/goods')?>/<?php echo $vv['goodsid']?>"><?php echo $vv['goodsname']?></a>
 			<?php	}
 					?>
 			    </div>
@@ -66,6 +64,5 @@
 	function fun3()
 	{
 		var val=$("input[name='search_content']").val();
-
 	}
 </script>
