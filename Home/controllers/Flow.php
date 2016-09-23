@@ -252,14 +252,49 @@ class Flow extends CI_Controller {
 
 	}
 	/**
-	 * 选购的商品
+	 * 选购的商品 生成订单
 	 * @return [type] [description]
 	 */
 	public function goshoping()
 	{
 		//获取要添加购物id
-		$id=$this->input->post('id');
-		print_r($id);die;
+		$id=$this->input->post('id');//商品id
+		if($id != ""){
+			$uid=$this->session->userdata('uid');//用户id
+			$id=explode(',', $id);
+			//查询购物车id获取商品id
+			$this->db->where_in('rec_id',$id);
+			$x_cart = $this->db->get_where('x_cart',['user_id'=>$uid])->result_array();
+			$data=array();
+			//订单数据更新
+			foreach ($x_cart as $key => $val) {
+				$data['user_id']=$val['user_id'];
+				$data['goods_id']=$val['goods_id'];
+				$data['goods_name']=$val['goods_name'];
+				$data['goods_sn']=$val['goods_sn'];
+				$data['goods_number']=$val['goods_number'];
+				$data['goods_price']=$val['goods_price'];
+				$data['order_sn']="Hu".date('YmdHis');//订单号
+				$data['is_status']=0;//订单状态 0未付款
+				$query = $this->db->get_where('x_order_goods', array('user_id' => $val['user_id'],'goods_id'=>$val['goods_id'],'is_status'=>'0'))->row_array();
+				if($query){
+					$data['goods_number']=$query['goods_number'] + $val['goods_number'];
+					$order_id = $query['order_id'];
+					$order=$this->db->update('x_order_goods', $data, "order_id = $order_id");
+				}else{
+					$order=$this->db->insert('x_order_goods', $data);
+				}
+			}
+			if($order){
+				echo "1";
+			}else{
+				echo "0";
+			}
+		}else{
+			echo "0";
+		}
+		
+		
 
 	}
 	/**
@@ -269,7 +304,11 @@ class Flow extends CI_Controller {
 	 */
 	public function flow2()
 	{
-		$this->load->view('flow/flow2');
+		$uid=$this->session->userdata('uid');//用户id
+		if(!empty($uid)){
+
+			$this->load->view('flow/flow2');
+		}
 	}
 
 }
