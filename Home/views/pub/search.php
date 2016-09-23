@@ -26,16 +26,16 @@
 			    <div class="search_form">
 			    		<div class="search_formstyle">
 			    			<input type="text" class="search_form_text" name="search_content" placeholder="输入宝贝"/>
-			    			<input type="submit" class="search_form_sub" name="secrch_submit" value="" title="搜索" />
+			    			<input type="submit" class="search_form_sub" value="" title="搜索" onclick="fun3()"/>
 			    		</div>
 			    </div>
 				<div class="div_search"></div>
 				<div class="search_tag">
-			    	<a href="">李宁</a>
-			    	<a href="">耐克</a>
-			    	<a href="">Kappa</a>
-			    	<a href="">双肩包</a>
-			    	<a href="">手提包</a>
+					<?php
+					 foreach($hot as $vv) {  ?>
+					  <a href="<?php echo site_url('goods/goods')?>"/<?php echo $vv['goodsid']?>><?php echo $vv['goodsname']?></a>
+			<?php	}
+					?>
 			    </div>
 
 			</div>
@@ -63,7 +63,9 @@
 			},'json')
 		})
 	})
+	function fun3()
+	{
+		var val=$("input[name='search_content']").val();
 
-
-
+	}
 </script>
