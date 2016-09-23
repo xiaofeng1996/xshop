@@ -12,6 +12,8 @@ class Flow extends CI_Controller {
 	 */
 	public function flow()
 	{
+		// session_start();
+		// session_destroy();
 		//$this->session->set_userdata('uid','1');//最后需要删除
 		$uid=$this->session->userdata('uid');
 		//判断是否登录状态
