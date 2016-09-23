@@ -198,8 +198,12 @@
 			if(id==""){
 				sweetAlert('请检查是否选中商品')
 			}else{
-				$.post("<?php echo site_url('flow/flow2') ?>",{id:id},function(m){
-		       		
+				$.post("<?php echo site_url('flow/goshoping') ?>",{id:id},function(m){
+		       		if(m==1){
+		       			 window.location.href="<?=site_url('flow/flow2'); ?>"
+		       		}else{
+		       			sweetAlert('您没有该商品');
+		       		}
 				});
 			}
 		<?php }else{ ?>
