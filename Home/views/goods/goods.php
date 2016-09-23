@@ -146,7 +146,7 @@
 					<li style="padding:20px 0;">
 						<label>&nbsp;</label>
 						<!--商品id-->
-						<input type="hidden" value='4' id="goods_id" />
+						<input type="hidden" value="<?php echo $list['goods_id']?>" id="goods_id" />
 						<span><a href="javascript:void(0)" class="goods_sub goods_sub_gou" id="goods_cart">加入购物车</a></span>
 					</li>
 				</ul>

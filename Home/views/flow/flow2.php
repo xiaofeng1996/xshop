@@ -139,6 +139,17 @@
 				</div>
 				<!-- 新增收货地址 End -->
 			</div>
+
+			<div class="two_t">
+				支付方式
+			</div>
+			<ul class="pay">
+				<li class="checked">余额支付<div class="ch_img"></div></li>
+				<li>银行亏款/转账<div class="ch_img"></div></li>
+				<li>货到付款<div class="ch_img"></div></li>
+				<li>支付宝<div class="ch_img"></div></li>
+			</ul>
+
 			<div class="clear"></div>
 			<!-- 购物车列表 -->
 			<div class="shop_bd_shdz_title">
@@ -245,3 +256,12 @@
 
 </body>
 </html>
+<script>
+	$(function(){
+		$('.pay li').click(function(){
+			var obj = $(this);
+			obj.attr('class','checked');
+			obj.siblings().removeAttr('class','checked');
+		})
+	})
+</script>

@@ -86,7 +86,7 @@
 				<tbody>
 					<?php foreach ($shop_cart as $key => $val): ?>
 						<tr id="<?=$val['rec_id'] ?>">
-							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /> <?=$val['rec_id'] ?></td>
+							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /></td>
 							<td class="gwc_list_pic"><a href="javascript:void(0)"><img src="<?php echo base_url(); ?><?=$val['goods_img']?>" /></a></td>
 							<td class="gwc_list_title"><a href=""><?=$val['goods_name'] ?> </a></td>
 							<td class="gwc_list_danjia"><span>￥<strong id="danjia_001"><?=$val['goods_price'] ?></strong></span></td>
@@ -145,7 +145,6 @@
             </div>
         </div>
 	<!-- Footer End -->
-
 </body>
 <script type="text/javascript">
 	//批量删除
@@ -159,7 +158,7 @@
         }
         var id=arr.join(',');
         if(id==""){
-        	sweetAlert('是否选中商品')
+        	sweetAlert('请检查是否选中商品')
         }else{
 	       $.post("<?php echo site_url('flow/p_delete') ?>",{id:id},function(m){
 				$('#shop_cart').children().remove();
