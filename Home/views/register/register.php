@@ -38,7 +38,7 @@
 					</dl>
 					<dl>
 						<dt>验证码</dt>
-						<dd><input type="text" name="code" class="text" size="10" style="width:58px;"> <img src="<?php echo base_url(); ?>public/home/images/code.png" alt="" align="absmiddle" style="position:relative;top:-2px;"/> <a href="" style="color:#999;">看不清，换一张</a></dd>
+						<dd><input type="text" name="code" class="text" size="10" style="width:58px;"> <img src="<?php echo base_url('index.php/register/yzm')?>" width="100" height="40" onclick=this.src="<?php echo base_url('index.php/register/yzm/')?>"+Math.random()> <a href="" style="color:#999;">看不清，换一张</a></dd>
 					</dl>
 					<dl>
 						<dt>&nbsp;</dt>

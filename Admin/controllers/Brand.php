@@ -56,4 +56,19 @@ class Brand extends  MY_Controller
             $this->load->view("admin/brand/brand_edit.html");
         }
     }
+    /*
+    * 删除品牌数据
+    */
+    public  function  brand_delete(){
+        $id = $this->input->post('id');
+        $bool=$this->db->delete('brand',array('brand_id'=>$id));//删除数据库.user表里id=3的用户所有信息
+        if($bool){
+
+            echo 1;
+
+        }else{
+
+            echo 0;
+        }
+    }
 }

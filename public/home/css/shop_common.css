@@ -2,3 +2,30 @@
 body{color:#333;font:12px/1 "Microsoft YaHei","Lucida Grande","Lucida Sans Unicode",Tahoma,Helvetica,Arial,sans-serif;}
 a{text-decoration:none;color:555555;}
 a:hover{text-decoration:underline;color:#CC0000;}
+.two_t{
+    width:1110px; height:35px; line-height:35px; overflow:hidden; color:#3e3e3e; font-size:16px; margin-top:15px;
+}
+.two_t span{
+    font-size:12px; font-family:"宋体"; color:#ff4e00;
+}
+.two_t span a{
+    color:#ff4e00;
+}
+ul.pay{
+    width:1110px; overflow:hidden; margin:0 auto;
+}
+ul.pay li{
+    height:38px; line-height:38px; overflow:hidden; font-size:14px; text-align:center; font-family:"Microsoft YaHei"; float:left; display:inline; margin-right:10px; margin-top:4px; margin-bottom:2px; padding:0 25px; border:1px solid #cccccc; cursor:pointer; position:relative;
+}
+ul.pay li:hover{
+    height:36px; line-height:36px; padding:0 24px; overflow:hidden; border:2px solid #ff4e00;
+}
+ul.pay li .ch_img{
+    width:18px; height:18px; overflow:hidden; background:url(../images/ch.png) no-repeat center top; position:absolute; right:0; bottom:0; display:none;
+}
+ul.pay li.checked{
+    height:36px; line-height:36px; padding:0 24px; overflow:hidden; border:2px solid #ff4e00;
+}
+ul.pay li.checked .ch_img{
+    display:block;
+}

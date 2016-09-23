@@ -1,5 +1,6 @@
+	<!-- 购物车 Body -->
 	<div id="shop_cart">
-	<div class="shop_gwc_bd clearfix">
+	<div class="shop_gwc_bd clearfix" >
 		<!-- 在具体实现的时候，根据情况选择其中一种情况 -->
 		<!-- 购物车为空 -->
 		<?php if (empty($shop_cart)): ?>
@@ -38,8 +39,8 @@
 				<tbody>
 					<?php foreach ($shop_cart as $key => $val): ?>
 						<tr id="<?=$val['rec_id'] ?>">
-							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /> <?=$val['rec_id'] ?></td>
-							<td class="gwc_list_pic"><a href="javascript:void(0)"><img src="<?php echo base_url(); ?><?=$val['goods_img']?>" /></a></td>
+							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /></td>
+							<td class="gwc_list_pic"><a href="javascript:void(0)"><img src="<?php echo base_url(); ?><?=$val['goods_img']?>" width="100px;" height="100px;" /></a></td>
 							<td class="gwc_list_title"><a href=""><?=$val['goods_name'] ?> </a></td>
 							<td class="gwc_list_danjia"><span>￥<strong id="danjia_001"><?=$val['goods_price'] ?></strong></span></td>
 							<td class="gwc_list_shuliang">
@@ -62,7 +63,7 @@
 							<div class="clear"></div>
 							<div class="gwc_foot_links">
 								<a href="<?php echo site_url('index/index') ?>" class="go">继续购物</a>
-								<a href="<?php echo site_url('flow/flow2') ?>" class="op">确认并填写订单</a>
+								<a href="javascript:void(0)" class="op" id="firmorder">确认并填写订单</a>
 							</div>
 						</td>
 					</tr>
@@ -72,10 +73,5 @@
 		</div>
 		<!-- 购物车有商品 end -->
 		<?php endif ?>
-		
-		
-		
-
 	</div>
-
 	</div>

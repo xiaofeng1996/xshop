@@ -312,54 +312,17 @@
                     </ul>
                     <div class="tabs-panel">
                         <ul>
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
-                            <li>
-                                <dl>
-                                    <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="images/04fb225ea46bd1346f330400eedb7ef2.jpg_small.jpg" /></a></dt>
-                                    <dd><a href="<?php echo site_url('goods/goods'); ?>">正品都市时尚女装假两件优雅针织衫</a></dd>
-                                    <dd>商城价：<em>182.00</em>元</dd>
-                                </dl>
-                            </li>
-                            
+                            <?php
+                              foreach($show as $value){ ?>
+                                 <li>
+                                     <dl>
+                                         <dt><a href="<?php echo site_url('goods/goods');?>/<?php echo $value['goods_id']?>"><img src="<?php echo base_url('public/home/').$value['goods_img']?>"/></a></dt>
+                                         <dd><a href="<?php echo site_url('goods/goods'); ?>"><?php echo $value['goods_name']?></a></dd>
+                                         <dd>商城价：<em><?php echo $value['shop_price']?></em>元</dd>
+                                     </dl>
+                                 </li>
+                         <?php     }
+                            ?>
                         </ul>
                     </div>
                 </div>

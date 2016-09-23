@@ -86,8 +86,8 @@
 				<tbody>
 					<?php foreach ($shop_cart as $key => $val): ?>
 						<tr id="<?=$val['rec_id'] ?>">
-							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /> <?=$val['rec_id'] ?></td>
-							<td class="gwc_list_pic"><a href="javascript:void(0)"><img src="<?php echo base_url(); ?><?=$val['goods_img']?>" /></a></td>
+							<td class="gwc_list_title"><input type="checkbox" value="<?=$val['rec_id'] ?>" id="rec_id" /></td>
+							<td class="gwc_list_pic"><a href="javascript:void(0)"><img src="<?php echo base_url(); ?><?=$val['goods_img']?>" width="100px;" height="100px;" /></a></td>
 							<td class="gwc_list_title"><a href=""><?=$val['goods_name'] ?> </a></td>
 							<td class="gwc_list_danjia"><span>￥<strong id="danjia_001"><?=$val['goods_price'] ?></strong></span></td>
 							<td class="gwc_list_shuliang">
@@ -106,11 +106,11 @@
 							<div class="gwc_foot_links"  style="float:left; padding-top:20px;">
 								<a href="javascript:void(0)" class="op" id="p_delete">批量删除</a>
 							</div>
-							<div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia"><?=$nums_price; ?></strong></span></div>
+							<div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">0</strong></span></div>
 							<div class="clear"></div>
 							<div class="gwc_foot_links">
 								<a href="<?php echo site_url('index/index') ?>" class="go">继续购物</a>
-								<a href="<?php echo site_url('flow/flow2') ?>" class="op">确认并填写订单</a>
+								<a href="javascript:void(0)" class="op" id="firmorder">确认并填写订单</a>
 							</div>
 						</td>
 					</tr>
@@ -120,10 +120,6 @@
 		</div>
 		<!-- 购物车有商品 end -->
 		<?php endif ?>
-		
-		
-		
-
 	</div>
 	</div>
 	<!-- 购物车 Body End -->
@@ -145,7 +141,6 @@
             </div>
         </div>
 	<!-- Footer End -->
-
 </body>
 <script type="text/javascript">
 	//批量删除
@@ -159,14 +154,61 @@
         }
         var id=arr.join(',');
         if(id==""){
-        	sweetAlert('是否选中商品')
+        	sweetAlert('请检查是否选中商品')
         }else{
 	       $.post("<?php echo site_url('flow/p_delete') ?>",{id:id},function(m){
 				$('#shop_cart').children().remove();
 				$('#shop_cart').append(m)
 			});
         }
-
+	})
+	//计算商品价格
+	$(document).on('click',':checkbox',function(){
+		obj=$(':checkbox');
+		var arr=Array();
+		for (var i = 0; i < obj.length; i++) {
+			if(obj[i].checked==true){
+				arr.push(obj[i].value)
+			}
+		}
+		var id=arr.join(',');
+		if(id==""){
+        	$("#good_zongjia").text(0)
+        }else{
+	       $.post("<?php echo site_url('flow/p_select') ?>",{id:id},function(m){
+		       	if(m > 0){
+		       		$("#good_zongjia").text(m)
+		       	}else{
+		       		$("#good_zongjia").text(0)
+		       	}
+			});
+        }
+	})
+	//确认收货订单
+	$(document).on('click','#firmorder',function(){
+		<?php if( !empty($this->session->userdata('uid') ) ){ ?>
+			obj=$(':checkbox');
+			var arr=Array();
+			for (var i = 0; i < obj.length; i++) {
+				if(obj[i].checked==true){
+					arr.push(obj[i].value)
+				}
+			}
+			var id=arr.join(',');
+			if(id==""){
+				sweetAlert('请检查是否选中商品')
+			}else{
+				$.post("<?php echo site_url('flow/goshoping') ?>",{id:id},function(m){
+		       		if(m==1){
+		       			 window.location.href="<?=site_url('flow/flow2'); ?>"
+		       		}else{
+		       			sweetAlert('您没有该商品');
+		       		}
+				});
+			}
+		<?php }else{ ?>
+			sweetAlert('请先登录');
+		<?php } ?>		
 	})
 </script>
 </html>
