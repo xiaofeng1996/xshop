@@ -101,40 +101,43 @@
 			<div class="shop_bd_shdz clearfix">
 				<div class="shop_bd_shdz_lists clearfix">
 					<ul>
-						<li><label>寄送至：<span><input type="radio" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em></li>
-
-						<li><label>寄送至：<span><input type="radio" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em></li>
-
-						<li><label>寄送至：<span><input type="radio" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em></li>
-
-						
+						<?php
+						   foreach($show as $value){ ?>
+							   <li><label>寄送至：<span><input type="radio" /></span></label><em><?php echo $value['consignee_address1']?></em><em><?php echo $value['consignee_address']?></em><em><?php echo $value['consignee_name']?>(收)</em><em><?php echo $value['consignee_phone']?></em></li>
+						<?php   }
+						?>
 					</ul>
 				</div>
 				<!-- 新增收货地址 -->
 				<div id="new_add_shdz_contents" style="display:none;" class="shop_bd_shdz_new clearfix">
 					<div class="title">新增收货地址</div>
 					<div class="shdz_new_form">
-						<form>
+						<form method="post" action="<?php echo site_url('flow/flow2')?>">
 							<ul>
-								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" class="name" /></li>
+								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" name="consignee_name" /></li>
 								<li><label for=""><span>*</span>所在地址：</label>
-									<select>
-										<option value="">北京</option>
+									<select class="sheng" name="province">
+										<option value="0">请选择</option>
+										<?php
+										  foreach($list as $value){ ?>
+											   <option value="<?php echo $value['region_id']?>"><?php echo $value['region_name']?></option>
+									<?php	  }
+										?>
 									</select>
-									<select>
-										<option value="">北京</option>
+									<select class="sheng" name="city">
+										<option value="0">请选择</option>
 									</select>
-									<select>
-										<option value="">昌平</option>
+									<select class="sheng" name="county">
+										<option value="0">请选择</option>
 									</select>
 								</li>
-								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" /></li>
-								<li><label for=""><span></span>邮政编码：</label><input type="text" class="youbian" /></li>
-								<li><label for=""><span></span>电话：</label><input type="text" class="dianhua" /></li>
-								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" /></li>
+								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" name="consignee_address"/></li>
+								<li><label for=""><span></span>邮政编码：</label><input type="text" class="youbian" name="consignee_zipcode"/></li>
+								<li><label for=""><span></span>电话：</label><input type="text" class="dianhua" name="consignee_tphone"/></li>
+								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" name="consignee_phone"/></li>
 								<li><label for="">&nbsp;</label><input type="submit" value="增加收货地址" /></li>
 							</ul>
-						</from>
+						</form>
 					</div>
 				</div>
 				<!-- 新增收货地址 End -->
@@ -263,5 +266,19 @@
 			obj.attr('class','checked');
 			obj.siblings().removeAttr('class','checked');
 		})
+		//省市县联动
+		 $(".sheng").change(function(){
+			 var obj= $(this);
+			 var id=obj.val();
+			 $.get("<?php echo site_url('flow/sheng')?>",{sid:id},function(msg){
+				  var str="<option value='0'>请选择</option>";
+				   for(i in msg)
+				 {
+					 str+="<option value='"+msg[i].region_id+"'>"+msg[i].region_name+"</option>";
+				 }
+				 obj.next().html(str);
+			 },'json')
+		 })
 	})
+
 </script>
