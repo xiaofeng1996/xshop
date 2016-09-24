@@ -137,7 +137,41 @@ class Flow extends CI_Controller {
 	 */
 	public function flow2()
 	{
-		$this->load->view('flow/flow2');
+		$data['uid']=$this->session->userdata('uid');
+		if($_POST)
+		{
+                $data['consignee_name']=$this->input->post('consignee_name');
+                $data['consignee_address']=$this->input->post('consignee_address'); //详细地址
+                $data['consignee_zipcode']=$this->input->post('consignee_zipcode');
+                $data['consignee_tphone']=$this->input->post('consignee_tphone');//电话
+                $data['consignee_phone']=$this->input->post('consignee_phone');//手机号
+			  $arr[]=$this->input->post('province');
+			  $arr[]=$this->input->post('city');
+			  $arr[]=$this->input->post('county');
+			   $arr2=implode(',',$arr);
+			  $d=$this->db->select(array('region_name'))->where("region_id in ($arr2)")->get('region')->result_array();
+	          $data['consignee_address1']=$d[0]['region_name'].','.$d[1]['region_name'].','.$d[2]['region_name'];
+		       $b=$this->db->insert('x_consignee',$data);
+			  // print_r($data);die;
+			if($b)
+			{
+				redirect('Flow/flow2');
+			}
+		}
+		else
+		{
+			$arr=$this->db->where("parent_id=1")->get('region')->result_array();
+			$dat=$this->db->where("uid='$data[uid]'")->get('x_consignee')->result_array();
+			$this->load->view('flow/flow2',['list'=>$arr,'show'=>$dat]);
+		}
+
+	}
+	//省市县联动
+	public function sheng()
+	{
+         $sid=$this->input->get('sid');
+		 $dat=$this->db->where("parent_id='$sid'")->get('region')->result_array();
+	        echo json_encode($dat);
 	}
 	public function p_delete()
 	{
