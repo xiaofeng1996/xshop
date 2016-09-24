@@ -84,4 +84,20 @@ class Category extends MY_Controller
         }
         return $arr;
     }
+    /*
+     * 删除商品分类
+     */
+    public function category_delete()
+    {
+        $id = $this->input->post('id');
+        $bool = $this->db->delete('category', array('cat_id' => $id));//删除数据库.user表里id=3的用户所有信息
+        if ($bool) {
+
+            echo 1;
+
+        } else {
+
+            echo 0;
+        }
+    }
 }
