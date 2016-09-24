@@ -37,10 +37,7 @@ class Goods extends MY_Controller {
 			$config['max_size'] = '5000';
 			$config['max_width'] = '5000';
 			$config['max_height'] = '1000';
-			//print_r($config);die;
 			$this->load->library('upload', $config);
-			//var_dump($this->upload->do_upload($config['file_name']));die;
-			//print_r($this->upload->data());
 			if($this->upload->do_upload('goods_img')){
 				$data = $this -> input ->post();
 				//print_r($data);die;
@@ -52,9 +49,6 @@ class Goods extends MY_Controller {
 				$data['goods_img'] = $config['upload_path'].$filename;
 				$res = $this->db->insert('x_goods', $data);
 				$good_id = $this->db->insert_id();
-				//echo $good_id;die;
-				/*print_r($attr_name);*/
-				//print_r($attr_id);die;
 				if(!empty($attr_name) & !empty($attr_id)){
 					$data1 = array();
 					foreach ($attr_id as $k=>$v){
@@ -74,8 +68,6 @@ class Goods extends MY_Controller {
 						echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
 					}
 				}
-
-
 			}
 		}else{
 			//查询出所有分类
@@ -91,10 +83,6 @@ class Goods extends MY_Controller {
 			$this->load->view('admin/add_goods.html',$datas);
 		}
 	}
-
-
-
-
 	/*
 	 * 查询商品类型
 	 */
@@ -107,9 +95,6 @@ class Goods extends MY_Controller {
 		//print_r($attr);die;
 		echo json_encode($attr);die;
 	}
-
-
-
 	/*
     *  权限树
     */
@@ -124,5 +109,7 @@ class Goods extends MY_Controller {
 		}
 		return $arr;
 	}
+	
+	
 
 }
