@@ -79,7 +79,7 @@
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
 
                                             <a href="">修改</a>
-                                            <a href="<?php echo site_url('Category/delete/'. $value['cat_id']);?>">删除</a>
+                                            <a href="javascript:void(0)" id="<?= $value['cat_id']?>"  class="delete">删除</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -310,13 +310,27 @@
         });
     })
 </script>
-<script>
-    /*删除数据*/
-    $(function () {
-        $(".delete").click(function () {
-            var id = $(this).attr('id');
-            alert(id);
-        })
+<script type="text/javascript">
+    //删除
+    $(document).on('click','.delete',function(){
+        var id = $(this).attr('id');
+        var obj = $(this);
+        $.ajax({
+            type:"post",
+            data:{id:id},
+            url:"<?= site_url('category/category_delete')?>",
+            success:function (msg) {
+
+                if(msg==1){
+                    alert("删除失败");
+                }else{
+
+                    obj.parents('tr').remove();
+                    alert("删除成功");
+                }
+
+            }
+        });
     });
 </script>
 </html>

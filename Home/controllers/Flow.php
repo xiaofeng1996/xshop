@@ -27,6 +27,7 @@ class Flow extends CI_Controller {
 			 	$data['nums_price'] += $val['goods_number'] * $val['goods_price'];
 			 }
 			 $data['shop_cart']=$x_cart;
+
 			 //商品数量  
 		}else{
 			//session数据
@@ -55,12 +56,15 @@ class Flow extends CI_Controller {
 	 * @return [type] [description]
 	 */
 	public function shop_cart(){
+		//session_start();
+		// session_destroy();
 		//商品
 		$goods_id=$this->input->post('goods_id');
 		$good_nums= intval($this->input->post('good_nums'));
 		//查询当前商品
 		$x_goods = $this->db->get_where('x_goods',array('goods_id' => $goods_id))->row_array();	
 		//用户id 判断是否登录
+		//$this->session->set_userdata('uid','1');
 		$uid=$this->session->userdata('uid');
 		if(!empty($uid)){
 			//arr0为要添加已存在购物车数组arr的新购物车数组  
@@ -152,7 +156,6 @@ class Flow extends CI_Controller {
 			  $d=$this->db->select(array('region_name'))->where("region_id in ($arr2)")->get('region')->result_array();
 	          $data['consignee_address1']=$d[0]['region_name'].','.$d[1]['region_name'].','.$d[2]['region_name'];
 		       $b=$this->db->insert('x_consignee',$data);
-			  // print_r($data);die;
 			if($b)
 			{
 				redirect('Flow/flow2');
@@ -173,6 +176,12 @@ class Flow extends CI_Controller {
 		 $dat=$this->db->where("parent_id='$sid'")->get('region')->result_array();
 	        echo json_encode($dat);
 	}
+
+	/**
+	 * 批量删除商品id
+	 * @return [type] [description]
+	 */
+
 	public function p_delete()
 	{
 		//获取要删除的session中的购物id
@@ -180,6 +189,26 @@ class Flow extends CI_Controller {
 		$uid=$this->session->userdata('uid');
 		//判断是否登录状态
 		if(!empty($uid)){
+			if(!empty($id)){
+				$id=explode(',', $id);
+				$this->db->where_in('rec_id',$id); 
+				$delete=$this->db->delete('x_cart');
+				if($delete){
+					 $x_cart = $this->db->get_where('x_cart',['user_id'=>$uid])->result_array();
+					 //加载商品图片
+					 $data['nums_price']="";
+					 foreach ($x_cart as $key => $val) {
+					 	$images=$this->db->get_where('x_goods',['goods_id'=>$val['goods_id']])->row_array();
+					 	$x_cart[$key]['goods_img']=$images['goods_img'];
+					 	$data['nums_price'] += $val['goods_number'] * $val['goods_price'];
+					 }
+					 $data['shop_cart']=$x_cart;
+				}else{
+					$data['shop_cart']=array();
+				}
+				$this->load->view('flow/goods_cart',$data);
+
+			}
 
 		}else{
 			$shop_cart=$this->session->userdata('shop_cart');//购物session
@@ -205,6 +234,8 @@ class Flow extends CI_Controller {
 						$data['nums_price'] = $val['goods_number'] * $val['goods_price'];
 					}
 					$data['shop_cart']=$shop_cart;
+				}else{
+					$data['shop_cart']=array();
 				}
 				$this->load->view('flow/goods_cart',$data);
 			}
@@ -212,4 +243,103 @@ class Flow extends CI_Controller {
 		}	
 
 	}
+	/**
+	 * 计算商品价格
+	 * @return [type] [description]
+	 */
+	public function p_select()
+	{
+		//获取要删除的session中的购物id
+		$id=$this->input->post('id');
+		$uid=$this->session->userdata('uid');
+		//判断是否登录状态
+		if(!empty($uid)){
+			if(!empty($id)){
+				$id=explode(',', $id);
+				$this->db->where_in('rec_id',$id);
+				 $x_cart = $this->db->get_where('x_cart',['user_id'=>$uid])->result_array();
+				 if($x_cart){
+					 //加载商品图片
+					 $data['nums_price']="";
+					 foreach ($x_cart as $key => $val) {
+					 	$data['nums_price'] += $val['goods_number'] * $val['goods_price'];
+					 }
+					 echo $data['nums_price'];die;
+				 }else{
+				 	echo "0";
+				 }
+			}
+		}else{
+			$shop_cart=$this->session->userdata('shop_cart');//购物session
+			$d_id=explode(',', $id);
+			if(!empty($d_id)){
+				//session数据
+				$shop_cart=$this->session->userdata('shop_cart');
+				//查找
+				//print_r($d_id);die;
+				foreach ($d_id as $key => $val) {
+					$shop[]=$shop_cart[$val];
+				}
+				if(!empty($shop_cart)){
+					//商品数量  和   图片
+					 $data['nums_price']="";
+					 foreach ($shop as $key => $val) {
+					 	$data['nums_price'] += $val['goods_number'] * $val['goods_price'];
+					 }
+					 echo $data['nums_price'];die;
+				}else{
+				 	echo "0";
+				}
+			}
+
+		}	
+
+	}
+	/**
+	 * 选购的商品 生成订单
+	 * @return [type] [description]
+	 */
+	public function goshoping()
+	{
+		//获取要添加购物id
+		$id=$this->input->post('id');//商品id
+		if($id != ""){
+			$uid=$this->session->userdata('uid');//用户id
+			$id=explode(',', $id);
+			//查询购物车id获取商品id
+			$this->db->where_in('rec_id',$id);
+			$x_cart = $this->db->get_where('x_cart',['user_id'=>$uid])->result_array();
+			$data=array();
+			//订单数据更新
+			foreach ($x_cart as $key => $val) {
+				$data['user_id']=$val['user_id'];
+				$data['goods_id']=$val['goods_id'];
+				$data['goods_name']=$val['goods_name'];
+				$data['goods_sn']=$val['goods_sn'];
+				$data['goods_number']=$val['goods_number'];
+				$data['goods_price']=$val['goods_price'];
+				$data['order_sn']="Hu".date('YmdHis');//订单号
+				$data['is_status']=0;//订单状态 0未付款
+				$query = $this->db->get_where('x_order_goods', array('user_id' => $val['user_id'],'goods_id'=>$val['goods_id'],'is_status'=>'0'))->row_array();
+				if($query){
+					$data['goods_number']=$query['goods_number'] + $val['goods_number'];
+					$order_id = $query['order_id'];
+					$order=$this->db->update('x_order_goods', $data, "order_id = $order_id");
+				}else{
+					$order=$this->db->insert('x_order_goods', $data);
+				}
+			}
+			if($order){
+				echo "1";
+			}else{
+				echo "0";
+			}
+		}else{
+			echo "0";
+		}
+		
+		
+
+	}
+
 }
