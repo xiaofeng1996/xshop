@@ -91,11 +91,6 @@ class Goods extends MY_Controller {
 			$config['max_width'] = '5000';
 			$config['max_height'] = '1000';
 			$this->load->library('upload', $config);
-<<<<<<< .mine
-
-=======
-
->>>>>>> .theirs
 			if($this->upload->do_upload('goods_img')){
 				//上传成功添加商品
 				$data = $this -> input ->post();
@@ -115,13 +110,7 @@ class Goods extends MY_Controller {
 				$data['goods_img'] = $config['upload_path'].$filename;
 				$res = $this->db->insert('x_goods', $data);
 				$good_id = $this->db->insert_id();
-<<<<<<< .mine
-
-
-=======
-
 				//商品成功后添加  商品属性
->>>>>>> .theirs
 				if(!empty($attr_name) & !empty($attr_id)){
 					$data1 = array();
 					foreach ($attr_id as $k=>$v){
@@ -180,7 +169,4 @@ class Goods extends MY_Controller {
 		}
 		return $arr;
 	}
-	
-	
-
 }
