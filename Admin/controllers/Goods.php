@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: 亢士群
+ * User: 李路峥
  * Date: 2016/9/20
  * 后台首页
  * Time: 17:25
@@ -21,10 +21,8 @@ class Goods extends MY_Controller {
 			$cat_id = $this -> input -> post('cat_id');
 			$brand_id = $this -> input -> post('brand_id');
 			$keywords = $this -> input -> post('keywords');
-		//$page = isset($_GET['page']) ? Input::get('page') : 1 ;
 			$page1 =  substr($_SERVER['PHP_SELF'],-1);
 			$page = ($page1=='/')?1:$page1;
-			//echo $page;die;
 			$where = '1';
 			if(!empty($cat_id)){
 				$where .= " and cat_id = '$cat_id'";
@@ -56,11 +54,9 @@ class Goods extends MY_Controller {
 			$this->pagination->initialize($config);
 			//生成分页字符串
 			$data['pagestr']=$this->pagination->create_links();
-			//print_r($data);die;
 			$limit=$config['per_page'];
 			$offset1 = $offset*$page;
-		//print_r($limit);die;
-		//echo $where;die;
+
 			$where1 = strlen($where);
 			//echo $where1;die;
 			if($where1 == 1){
@@ -68,9 +64,6 @@ class Goods extends MY_Controller {
 			}else{
 				$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('goods')->result_array();
 			}
-
-		//echo $this->db->last_query();die;
-		//	print_r($data);die;
 			//查询出分类 为搜索准备
 			$data1=$this->db->get('category')->result_array();
 			$data['type'] = $this->nodetree($data1,0);
@@ -84,7 +77,9 @@ class Goods extends MY_Controller {
 	 * 添加商品
 	 */
 	public function add_goods(){
+		//判断是否为post提交
 		if($this->input->post()){
+			//上传图片
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
@@ -97,11 +92,10 @@ class Goods extends MY_Controller {
 			$config['max_height'] = '1000';
 			//print_r($config);die;
 			$this->load->library('upload', $config);
-			//var_dump($this->upload->do_upload($config['file_name']));die;
-			//print_r($this->upload->data());
+
 			if($this->upload->do_upload('goods_img')){
+				//上传成功添加商品
 				$data = $this -> input ->post();
-				//print_r($data);die;
 				@$attr_id = $data['y_id'];
 				@$attr_name = $data['attr_name'];
 				unset($data['y_id']);
@@ -118,23 +112,19 @@ class Goods extends MY_Controller {
 				$data['goods_img'] = $config['upload_path'].$filename;
 				$res = $this->db->insert('x_goods', $data);
 				$good_id = $this->db->insert_id();
-				//echo $good_id;die;
-				/*print_r($attr_name);*/
-				//print_r($attr_id);die;
+
+				//商品成功后添加  商品属性
 				if(!empty($attr_name) & !empty($attr_id)){
 					$data1 = array();
 					foreach ($attr_id as $k=>$v){
 						foreach ($attr_name as  $ke=>$va){
-							//echo $va;die;
 							$data1[$ke]['goods_id'] = $good_id;
 							$data1[$k]['attr_id'] = $v;
 							$data1[$ke]['attr_value'] = $va;
-							//$res = $this->db->insert('x_goods_attr', $data1);
 						}
 					}
-					//print_r($data1);die;
 					foreach ($data1 as $v){
-						$ress = $this->db->insert('x_goods_attr', $v);
+						$this->db->insert('x_goods_attr', $v);
 					}
 					if($res > 0){
 						echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
@@ -144,6 +134,7 @@ class Goods extends MY_Controller {
 
 			}
 		}else{
+			//展示添加页面
 			//查询出所有分类
 			$data=$this->db->get('category')->result_array();
 			$datas['type'] = $this->nodetree($data,0);
