@@ -125,11 +125,11 @@ class Pay extends CI_Controller {
 	        	if($res){
 	        		redirect("order/pay_orders?order_sn=$order_sn");
 	        	}else{
-	        		redirect("flow/flow2");
+	        		redirect("flow/flow3");
 	        	}
 	        }
 	    } else{
-	    	echo "<script> alert('支付失败');location.href='".site_url('flow/flow2')."';</script>";
+	    	echo "<script> alert('支付失败');location.href='".site_url('flow/flow3')."';</script>";
 	    }  
            
     }

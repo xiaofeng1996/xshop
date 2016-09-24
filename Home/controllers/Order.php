@@ -43,7 +43,7 @@ class Order extends CI_Controller {
 
 			}
 		}else{
-			redirect('flow/flow2');
+			redirect('flow/flow3');
 		}
 	}
 	/**
@@ -84,10 +84,10 @@ class Order extends CI_Controller {
 						redirect("pay/bay?nums_price=$nums_price&order_sn=$order_sn&goods_name=$goods_name&order_id=$order_id");
 					}
 				}else{
-					redirect('flow/flow2');
+					redirect('flow/flow3');
 				}
 			}else{
-				redirect('flow/flow2');
+				redirect('flow/flow3');
 			}
 		}
 	}

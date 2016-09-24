@@ -342,7 +342,7 @@ class Flow extends CI_Controller {
 	 * @param  string $value [description]
 	 * @return [type]        [description]
 	 */
-	public function flow2()
+	public function flow3()
 	{
 		$uid=$this->session->userdata('uid');//用户id
 		if(!empty($uid)){
