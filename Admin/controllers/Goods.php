@@ -55,8 +55,11 @@ class Goods extends MY_Controller {
 			//生成分页字符串
 			$data['pagestr']=$this->pagination->create_links();
 			$limit=$config['per_page'];
-			$offset1 = $offset*$page;
-
+			if($offset==""){
+				$offset1 = 0;
+			}else{
+				$offset1 = ($offset-1)*$config['per_page'];
+			}
 			$where1 = strlen($where);
 			//echo $where1;die;
 			if($where1 == 1){
