@@ -19,7 +19,14 @@ class Index extends CI_Controller {
 		 $arr2=$this->db->limit(6)->get('x_goods')->result_array();
 		   //热词搜搜
 		  $hot=$this->db->limit(5)->get('x_hot')->result_array();
-		$this->load->view('index/index',['list'=>$arr,'show'=>$arr2,'hot'=>$hot]);
+		//特别推荐
+		$is_bast=$this->db->where('is_best','1')->get('x_goods')->result_array();
+		//热门商品
+		$is_new=$this->db->where('is_new','1')->get('x_goods')->result_array();
+		//新品上架
+		$is_hot=$this->db->where('is_hot','1')->get('x_goods')->result_array();
+
+		$this->load->view('index/index',['list'=>$arr,'show'=>$arr2,'hot'=>$hot,'is_best'=>$is_bast,'is_new'=>$is_new,'is_hot'=>$is_hot]);
 	}
 	//无限极
 	public function nolimit($data,$pid=0){
