@@ -27,7 +27,6 @@ class Flow extends CI_Controller {
 			 	$data['nums_price'] += $val['goods_number'] * $val['goods_price'];
 			 }
 			 $data['shop_cart']=$x_cart;
-
 			 //商品数量  
 		}else{
 			//session数据
@@ -337,9 +336,22 @@ class Flow extends CI_Controller {
 		}else{
 			echo "0";
 		}
-		
-		
-
+	}
+	/**
+	 * 确认收货人资料及送货方式
+	 * @param  string $value [description]
+	 * @return [type]        [description]
+	 */
+	public function flow3()
+	{
+		$uid=$this->session->userdata('uid');//用户id
+		if(!empty($uid)){
+			$data['order'] = $this->db->get_where('x_order_goods', array('user_id' => $uid,'is_status'=>'0'))->result_array();
+			$data['address'] = $this->db->get_where('x_user_address', array('user_id' => $uid))->result_array();
+			$this->load->view('flow/flow2',$data);
+		}else{
+			redirect('flow/flow');
+		}
 	}
 
 }

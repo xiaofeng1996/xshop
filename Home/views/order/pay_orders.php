@@ -10,7 +10,6 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>public/home/js/jquery.js" ></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>public/home/js/topNav.js" ></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>public/home/js/jquery.goodnums.js" ></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>public/home/js/shop_gouwuche.js" ></script>
 
     <style type="text/css">
     .shop_bd_shdz_title{width:1000px; margin-top: 10px; height:50px; line-height: 50px; overflow: hidden; background-color:#F8F8F8;}
@@ -77,7 +76,7 @@
 
 	<!-- Header End -->
 	<!-- 确定收货订单 -->
-	<form action="<?php echo site_url('order/pay') ?>" method="post">
+
 	<!-- 购物车 Body -->
 	<div class="shop_gwc_bd clearfix">
 		<div class="shop_gwc_bd_contents clearfix">
@@ -86,83 +85,33 @@
 			<div class="shop_gwc_bd_contents_lc clearfix">
 				<ul>
 					<li class="step_a">确认购物清单</li>
-					<li class="step_b hover_b">确认收货人资料及送货方式</li>
+					<li class="step_b">确认收货人资料及送货方式</li>
 					<li class="step_c">购买完成</li>
 				</ul>
 			</div>
 			<!-- 购物流程导航 End -->
-			<div class="clear"></div>
-			<!-- 收货地址 title -->
-			<div class="shop_bd_shdz_title">
-				<h3>收货人地址</h3>
-				<p><a href="javasrcipt:void(0);" id="new_add_shdz_btn">新增收货地址</a><a href="javascript:void(0);">管理收货地址</a></p>
-			</div>
-			<div class="clear"></div>
+			
 			
 			<!-- 收货人地址 Title End -->
-			<div class="shop_bd_shdz clearfix">
-				<div class="shop_bd_shdz_lists clearfix">
-					<ul>
-						<?php foreach ($address as $key => $val): ?>
-						<li><label>寄送至：<span><input type="radio" name="address_id" value="<?=$val['address_id']?>" /></span></label><em><?=$val['address']?></em><em><?=$val['consignee']?>(收)</em><em><?=$val['tel']?></em></li>
-							
-						<?php endforeach ?>
-					</ul>
-				</div>
-				<!-- 新增收货地址 -->
-				<div id="new_add_shdz_contents" style="display:none;" class="shop_bd_shdz_new clearfix">
-					<div class="title">新增收货地址</div>
-					<div class="shdz_new_form">
-						<form>
-							<ul>
-								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" class="name" /></li>
-								<li><label for=""><span>*</span>所在地址：</label>
-									<select>
-										<option value="">北京</option>
-									</select>
-									<select>
-										<option value="">北京</option>
-									</select>
-									<select>
-										<option value="">昌平</option>
-									</select>
-								</li>
-								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" /></li>
-								<li><label for=""><span></span>邮政编码：</label><input type="text" class="youbian" /></li>
-								<li><label for=""><span></span>电话：</label><input type="text" class="dianhua" /></li>
-								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" /></li>
-								<li><label for="">&nbsp;</label><input type="submit" value="增加收货地址" /></li>
-							</ul>
-						</from>
-					</div>
-				</div>
-				<!-- 新增收货地址 End -->
-			</div>
+	
 
-			<div class="two_t">
-				支付方式
-			</div>
-			<ul class="pay">
-				<li class="checked"> <input type="radio" name="pay" value="1"/> 余额支付<div class="ch_img"></div></li>
-				<li> <input type="radio" name="pay" value="2" /> 银行亏款/转账<div class="ch_img"></div></li>
-				<li> <input type="radio" name="pay" value="3" /> 货到付款<div class="ch_img"></div></li>
-				<li> <input type="radio" name="pay" value="4" /> 支付宝<div class="ch_img"></div></li>
-			</ul>
+			
 
 			<div class="clear"></div>
 			<!-- 购物车列表 -->
 			<div class="shop_bd_shdz_title">
-				<h3>确认购物清单</h3>
+				<h3>购买清单</h3>
 			</div>
 			<div class="clear"></div>
 			<table>
 				<thead>
 					<tr>
-						<th colspan="2"><span> 商品</span></th>
+						<th colspan="2"><span> 商品订单号</span></th>
+						<th colspan="2"><span> 商品名称</span></th>
 						<th><span> 单价(元)</span></th>
 						<th><span>数量</span></th>
 						<th><span>小计</span></th>
-						<th><span>操作</span></th>
+						<th><span>状态</span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -170,11 +119,16 @@
 				<?php foreach ($order as $key => $val): ?>
 					<tr>
 						<td class="gwc_list_title"><a href=""></a></td>
+						<td class="gwc_list_title"><a href=""><?=$val['order_sn']?> </a></td>
 						<td class="gwc_list_title"><a href=""><?=$val['goods_name']?> </a></td>
 						<td class="gwc_list_danjia"><span>￥<strong id="danjia_001"><?=$val['goods_price']?></strong></span></td>
 						<td class="gwc_list_shuliang"><span><?=$val['goods_number']?></span></td>
 						<td class="gwc_list_xiaoji"><span>￥<strong id="xiaoji_001" class="good_xiaojis"><?=$val['goods_number'] * $val['goods_price'] ?></strong></span></td>
-						<td class="gwc_list_caozuo"><a href="">收藏</a><a href="javascript:void(0);" class="shop_good_delete">删除</a></td>
+						<td class="gwc_list_caozuo">
+							<?php if ($val['is_status'] == '1'): ?>
+								未发货
+							<?php endif ?>
+						</td>
 					</tr>
 				<?php endforeach ?>
 					
@@ -182,11 +136,11 @@
 				<tfoot>
 					<tr>
 						<td colspan="6">
-							<div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">12750.00</strong></span></div>
+							<div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia"><?=$nums_price?></strong></span></div>
 							<div class="clear"></div>
 							<div class="gwc_foot_links">
 								<a href="<?php echo site_url('flow/flow') ?>" class="go">返回购物车</a>
-								<input type="submit" value="确认订单" />
+								<a href="<?php echo site_url('order/order') ?>" class="go">是否查看订单</a>
 							</div>
 						</td>
 					</tr>
@@ -197,7 +151,6 @@
 		</div>
 	</div>
 	<!-- 购物车 Body End -->
-	</form>
 	<!-- Footer - wll - 2013/3/24 -->
 	<div class="clear"></div>
 	<div class="shop_footer">

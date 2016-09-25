@@ -4,7 +4,6 @@
 				<a href="javascript:void(0);"><img src="<?php echo base_url(); ?>public/home/images/avatar.png" /></a>
 			</div>
 			<div class="clear"></div>
-
 			<dl>
 				<dt>我的交易</dt>
 				<dd><span><a href="<?php echo site_url('member/member'); ?>">已购买商品</a></span></dd>
@@ -15,8 +14,9 @@
 			<dl>
 				<dt>我的账户</dt>
 				<dd><span><a href="<?php echo site_url('member/memberinfo'); ?>">个人资料</a></span></dd>
-				<dd><span><a href="<?php echo site_url('password/pwdedit'); ?>">密码修改</a></span></dd>
+				<dd><span><a href="<?php echo site_url('order/order'); ?>">个人订单</a></span></dd>
 				<dd><span><a href="<?php echo site_url('address/address'); ?>">收货地址</a></span></dd>
+				<dd><span><a href="<?php echo site_url('password/pwdedit'); ?>">密码修改</a></span></dd>
 			</dl>
 
 		</div>
