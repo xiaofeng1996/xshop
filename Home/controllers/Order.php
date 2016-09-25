@@ -12,7 +12,11 @@ class Order extends CI_Controller {
 	 */
 	public function order()
 	{
-		$this->load->view('order/order');
+		$uid=$this->session->userdata('uid');
+		//$this->db->join('x_goods', 'x_order_goods.goods_id = x_goods.goods_id','left');
+		$order = $this->db->get_where('x_order_goods', array('user_id' => $uid))->result_array();
+		$data['order']=$order;
+		$this->load->view('order/order',$data);
 	}
 	/**
 	 * 进入支付页面
