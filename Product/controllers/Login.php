@@ -40,7 +40,7 @@ class Login extends CI_Controller {
 		if($account==$data[0]['adminname']&& $password==$data[0]['pwd']){
 			$this->db->where("aid",$data[0]['aid'])->update('x_admin',array('register_ip'=>$register_ip));
 			$this->db->where("aid",$data[0]['aid'])->update('x_admin',array('lastlogin'=>$lastlogin));
-			$this->session->set_userdata('admin_name',$data[0]['adminname']);
+			$this->session->set_userdata('pro_admin_name',$data[0]['adminname']);
 			redirect('index/index');
 		}else{
 			echo "<script>alert('登录失败');location.href='$url'</script>";
@@ -51,7 +51,7 @@ class Login extends CI_Controller {
 	 * 退出登录
 	 */
 	public function login_out(){
-		$this->session->unset_userdata('admin_name');
+		$this->session->unset_userdata('pro_admin_name');
 		echo "<script>alert('退出成功');location.href='".site_url('login/index')."'</script>";
 	}
 }

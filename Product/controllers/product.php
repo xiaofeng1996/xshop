@@ -7,7 +7,7 @@
  * Time: 17:25
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Goods extends MY_Controller {
+class Product extends MY_Controller {
 	//继承父类
 	public function __construct()
 	{
@@ -55,21 +55,28 @@ class Goods extends MY_Controller {
 		//生成分页字符串
 		$data['pagestr']=$this->pagination->create_links();
 		$limit=$config['per_page'];
-		$offset1 = $offset*$page;
-
+		//echo $limit;die;
+		//echo $offset;die;
+		if($offset==""){
+			$offset1 = 0;
+		}else{
+			$offset1 = ($offset-1)*$config['per_page'];
+		}
+		//echo $offset1;die;
 		$where1 = strlen($where);
 		//echo $where1;die;
 		if($where1 == 1){
-			$data['data'] = $this -> db -> where('is_delete',0)->limit($limit,$offset1) ->get('goods')->result_array();
+			$data['data'] = $this -> db -> where('is_delete',0)->limit($limit,$offset1) ->get('product_goods')->result_array();
 		}else{
-			$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('goods')->result_array();
+			$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('product_goods')->result_array();
 		}
+		//	echo $this->db->last_query();die;
 		//查询出分类 为搜索准备
 		$data1=$this->db->get('category')->result_array();
 		$data['type'] = $this->nodetree($data1,0);
 		//查询出商品品牌 为搜索准备
 		$data['brand'] = $this -> db ->get('brand')->result_array();
-		$this->load->view('admin/goods/goods.html',$data);
+		$this->load->view('admin/product/goods.html',$data);
 
 	}
 
@@ -110,7 +117,7 @@ class Goods extends MY_Controller {
 
 				$data['add_time'] = date("Y-m-d H:i:s",time());
 				$data['goods_img'] = $config['upload_path'].$filename;
-				$res = $this->db->insert('x_goods', $data);
+				$res = $this->db->insert('product_goods', $data);
 				$good_id = $this->db->insert_id();
 
 				//商品成功后添加  商品属性
@@ -124,10 +131,10 @@ class Goods extends MY_Controller {
 						}
 					}
 					foreach ($data1 as $v){
-						$this->db->insert('x_goods_attr', $v);
+						$this->db->insert('pro_goods_attr', $v);
 					}
 					if($res > 0){
-						echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
+						echo "<script>alert('添加成功');location.href='".site_url('product/index')."'</script>";
 					}
 				}
 
@@ -145,7 +152,7 @@ class Goods extends MY_Controller {
 			//查询商品类型做sku
 			$datas['goods_type'] = $this ->db -> get('goods_type')->result_array();
 
-			$this->load->view('admin/goods/add_goods.html',$datas);
+			$this->load->view('admin/product/add_goods.html',$datas);
 		}
 	}
 
