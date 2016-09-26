@@ -90,7 +90,7 @@ class Product extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/';
+			$config['upload_path'] = './public/upload/product/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;

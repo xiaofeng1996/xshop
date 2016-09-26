@@ -52,6 +52,7 @@ class Login extends CI_Controller {
 	 */
 	public function login_out(){
 		$this->session->unset_userdata('pro_admin_name');
+		//echo site_url();die;
 		echo "<script>alert('退出成功');location.href='".site_url('login/index')."'</script>";
 	}
 }
