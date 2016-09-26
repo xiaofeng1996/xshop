@@ -200,7 +200,7 @@
 			}else{
 				$.post("<?php echo site_url('flow/goshoping') ?>",{id:id},function(m){
 		       		if(m==1){
-		       			 window.location.href="<?=site_url('flow/flow2'); ?>"
+		       			 window.location.href="<?=site_url('flow/flow3'); ?>"
 		       		}else{
 		       			sweetAlert('您没有该商品');
 		       		}
