@@ -21,14 +21,14 @@ class Login extends CI_Controller {
 	{
 		if($_POST)
 		{
-			//$yzm=$this->session->userdata('codes');
+			$yzm=$this->session->userdata('codes');
             $user=$this->input->post('user');
             $pwd=$this->input->post('pwd');
 			$code=$this->input->post('code');
-			// if($code!=$yzm)
-			// {
-			// 	die("<script>alert('验证码错误');location.href='".site_url('login/login')."'</script>") ;
-			// }
+			if($code!=$yzm)
+			{
+				die("<script>alert('验证码错误');location.href='".site_url('login/login')."'</script>") ;
+			}
 			$d=$this->db->where("user='$user'")->get('x_user')->row_array();
 			if($d)
 			{
