@@ -140,38 +140,45 @@
                     <div class="tuijian_content">
                         <div id="tuijian_content_1" class="tuijian_shangpin" style="display: block;">
                             <ul>
+                                <?php foreach ($is_best as $value){?>
                                 <li>
                                     <dl>
-                                        <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="<?php echo base_url(); ?>public/home/images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                        <dd><a href="<?php echo site_url('goods/goods'); ?>">11111111棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                        <dd> 商城价：<em>256.00</em>元</dd>
+                                        <dt><a href="<?php echo site_url('goods/goods'); ?>"><img width="150" height="150" src="<?php echo base_url(); ?><?= $value['goods_img']?>" /></a></dt>
+                                        <dd><a href="<?php echo site_url('goods/goods'); ?>"><?= $value['goods_name']?></a></dd>
+                                        <dd> 商城价：<em><?= $value['shop_price']?></em>元</dd>
                                     </dl>
                                 </li>
+                                <?php }?>
                             </ul>
                         </div>
+                        <!--热门商品-->
                         <div id="tuijian_content_2" class="tuijian_shangpin">
                             <ul>
+                                <?php foreach ($is_new as $value){?>
                                 <li>
                                     <dl>
-                                        <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="<?php echo base_url(); ?>public/home/images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                        <dd><a href="<?php echo site_url('goods/goods'); ?>">2222222棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                        <dd> 商城价：<em>256.00</em>元</dd>
+                                        <dt><a href="<?php echo site_url('goods/goods'); ?>"><img width="150" height="150" src="<?php echo base_url(); ?><?= $value['goods_img']?>" /></a></dt>
+                                        <dd><a href="<?php echo site_url('goods/goods'); ?>"><?= $value['goods_name']?></a></dd>
+                                        <dd> 商城价：<em><?= $value['shop_price']?></em>元</dd>
                                     </dl>
                                 </li>
+                                <?php }?>
                                 </ul>
                         </div>
+                        <!--热门商品 end -->
+                        <!-- 新品上架-->
                         <div id="tuijian_content_3" class="tuijian_shangpin tuijian_content">
                             <ul>
                                 <li>
-                                    <dl>
-                                        <dt><a href="<?php echo site_url('goods/goods'); ?>"><img src="<?php echo base_url(); ?>public/home/images/365_7d5e08127b8d6799209674ecffbfc624.jpg_small.jpg" /></a></dt>
-                                        <dd><a href="<?php echo site_url('goods/goods'); ?>">3333333全棉布艺双人沙发垫沙发巾飘窗垫素雅黄花</a></dd>
-                                        <dd> 商城价：<em>256.00</em>元</dd>
-                                    </dl>
-                                </li>
+                                        <dl>
+                                            <dt><a href="<?php echo site_url('goods/goods'); ?>"><img width="150" height="150" src="<?php echo base_url(); ?><?= $value['goods_img']?>" /></a></dt>
+                                            <dd><a href="<?php echo site_url('goods/goods'); ?>"><?= $value['goods_name']?></a></dd>
+                                            <dd> 商城价：<em><?= $value['shop_price']?></em>元</dd>
+                                        </dl>
+                                    </li>
                             </ul>
                         </div>
-                        
+                        <!--  新品上架 end  -->
                     </div>
 
                 </div>
@@ -330,14 +337,9 @@
                     </ul>
                 </div>
                 <!-- 品牌展示 End -->
-                
             </div>
             <div clas="clear"></div>
             <!-- 第三块区域 End -->
-            
-            
-         
-            
             <div class="faq">
                 <dl>
                     <dt>帮助中心</dt>
