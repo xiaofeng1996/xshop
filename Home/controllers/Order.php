@@ -24,6 +24,8 @@ class Order extends CI_Controller {
 	 */
 	public function pay()
 	{
+		$id=$this->input->post('rec_id');//购物id
+
 		$pay=$this->input->post('pay');
 		$address_id = $this->input->post('address_id');
 		//判断是否有该支付方式与地址
@@ -35,15 +37,16 @@ class Order extends CI_Controller {
 			$uid=$this->session->userdata('uid');//用户id
 			if(!empty($uid)){
 				//修改支付方式 与 地址 订单
+				$this->db->where_in('rec_id',$id); 
 				$order = $this->db->get_where('x_order_goods', array('user_id' => $uid,'is_status'=>'0'))->result_array();
-				$id="";
+				$ids="";
 				foreach ($order as $key => $val) {
 					$order_id = $val['order_id'];
 					$update = $this->db->update('x_order_goods', $data, "order_id = $order_id");
-					$id .= $order_id.',';
+					$ids .= $order_id.',';
 				}
-				$id = rtrim($id,',');
-				redirect("order/order_pay?id=$id&pay=$pay");
+				$ids = rtrim($ids,',');
+				redirect("order/order_pay?id=$ids&pay=$pay");
 
 			}
 		}else{
