@@ -1,0 +1,258 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Privilege extends MY_Controller
+
+{
+    //继承父类
+
+    public function __construct()
+
+    {
+
+        parent::__construct();
+
+
+        $this->load->model('Privilege_model','privilege');
+        $this->load->model('Role_model','role');
+        $this->load->model('RolePri_model','RP');
+        
+        $this->load->helper('function');
+
+
+    }
+
+
+
+    public function pri_add(){
+
+    	if ($_POST) {
+			
+			$data = $this->input->post();
+			
+			$res=$this->privilege->insert($data);
+			
+			if($res){
+			
+				echo"<script>location.href='pri_list'</script>";die();
+			
+			}else{
+			
+				echo "<script>alert('添加失败');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+
+			}
+
+    	}else{
+
+    		$data = $this->privilege->sel();
+
+    		$arr =  level_auto($data);
+
+    		$this->load->vars('arr',$arr);
+
+    		$this->load->view('admin/privilege/pri_add.html');
+
+    	}
+    }
+
+    public function pri_list(){
+
+    	$data = $this->privilege->sel();
+
+    	$arr =  level_auto($data);
+
+    	$this->load->vars('arr',$arr);
+    	
+    	$this->load->view('admin/privilege/pri_list.html');
+    }
+   	
+
+   	//及点及改权限名
+	
+	public function updata(){
+	
+		if(IS_AJAX){
+	
+			$name=$this->input->post('pname');
+	
+			$nameall=$this->privilege->selname();
+	
+			$arr=array();
+	
+			foreach($nameall as $k=>$v){
+	
+				$arr[]=$v['p_name'];
+	
+			}
+	
+			foreach($arr as $k=>$v){
+	
+				if("$name"=="$v"){
+	
+					echo 3;
+	
+					die;
+	
+				}
+	
+			}
+	
+			$data=array(
+	
+
+				'p_name'=>$name
+	
+			);
+	
+			$where = 'id='.$this->input->post('id');
+	
+				$res=$this->privilege->upd($where,$data);
+	
+				if($res){
+	
+					//成功
+	
+					echo 1;die;
+	
+				}else{
+	
+					//失败
+	
+					echo 0;die;
+	
+				}
+	
+		}else{
+	
+		echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+		
+		}
+	
+	}
+	
+	//及点及改控制器
+	
+	public function upcon(){
+	
+		if(IS_AJAX){
+	
+			$data=array(
+	
+				'p_controller'=>$this->input->post('con')
+	
+			);
+	
+			$where = array(
+	
+				'id'=>$this->input->post('id')
+	
+				);
+	
+			$res=$this->privilege->update($where,$data);
+	
+			if($res){
+	
+				//成功
+	
+				echo 1;die;
+	
+			}else{
+	
+				//失败
+	
+				echo 0;die;
+	
+			}
+	
+		}else{
+	
+		echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+
+		}
+
+	}
+
+	//及点及改方法
+	public function upway(){
+		if(IS_AJAX){
+			$data=array(
+				
+				'p_action'=>$this->input->post('way')
+			);
+			$where = array(
+				'id'=>$this->input->post('id')
+				);
+			$res=$this->privilege->update($where,$data);
+			if($res){
+				//成功
+				echo 1;die;
+			}else{
+				//失败
+				echo 0;die;
+			}
+		}else{
+			echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+		}
+	}
+
+	public function dele(){
+		if(IS_AJAX){
+			$del=$this->input->post('del');
+			$show=$this->privilege->seldel("parent_id='$del'");
+			if($show){
+				//有子分类不能删除
+				echo 3;die;
+			}else{
+				$res=$this->privilege->del("id='$del'");
+				if($res){
+					echo 1;die;
+				}else{
+					echo 0;die;
+				}
+			}
+		}else{
+			echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+		}
+
+	}
+
+
+	public function role_pri(){
+		if($_POST){
+			$data['rid']=$this->input->post("rid");
+			$rid=$data['rid'];
+			$pid=$this->input->post("check");
+			$sel=$this->RP->sel_where("rid='$rid'");
+			if($sel){
+				$this->RP->del("rid='$rid'");
+			}
+			$arr=array();
+			foreach($pid as $key=>$val){
+				$arr[]['pid']=$val['pid'];
+			}
+			foreach($arr as $k=>$v){
+				$data['pid'] = $v['pid'];
+				$res = $this->RP->insert($data);
+			}
+			if($res){
+				echo"<script>alert('付权成功');location.href='pri_list'</script>";die();
+			}else{
+				echo "<script>alert('付权失败');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+			}
+		}else{
+
+			$role = $this->role->sel();
+			
+			$privilege = $this->privilege->sel();
+
+			$privilege =  level_auto($privilege);
+
+			$this->load->vars('role',$role);
+			
+			$this->load->vars('privilege',$privilege);
+			
+			$this->load->view('admin/privilege/role_pri.html');
+		}
+	}
+}
