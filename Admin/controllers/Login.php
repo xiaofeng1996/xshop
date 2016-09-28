@@ -40,6 +40,7 @@ class Login extends CI_Controller {
 			$this->db->where("aid",$data[0]['aid'])->update('x_admin',array('register_ip'=>$register_ip));
 			$this->db->where("aid",$data[0]['aid'])->update('x_admin',array('lastlogin'=>$lastlogin));
 			$this->session->set_userdata('admin_name',$data[0]['adminname']);
+			$this->session->set_userdata('admin_id',$data[0]['aid']);
 			redirect('index/index');
 		}else{
 			echo "<script>alert('登录失败');location.href='$url'</script>";

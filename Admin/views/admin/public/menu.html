@@ -21,42 +21,43 @@
 
 
     <script src="<?php echo base_url()?>public/admin/js/ace-extra.min.js"></script>
+
 </head>
 <body>
 <div class="sidebar" id="sidebar">
-<script type="text/javascript">
-    try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-</script>
+    <script type="text/javascript">
+        try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+    </script>
 
-<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-        <button class="btn btn-success">
-            <i class="icon-signal"></i>
-        </button>
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            <button class="btn btn-success">
+                <i class="icon-signal"></i>
+            </button>
 
-        <button class="btn btn-info">
-            <i class="icon-pencil"></i>
-        </button>
+            <button class="btn btn-info">
+                <i class="icon-pencil"></i>
+            </button>
 
-        <button class="btn btn-warning">
-            <i class="icon-group"></i>
-        </button>
+            <button class="btn btn-warning">
+                <i class="icon-group"></i>
+            </button>
 
-        <button class="btn btn-danger">
-            <i class="icon-cogs"></i>
-        </button>
-    </div>
+            <button class="btn btn-danger">
+                <i class="icon-cogs"></i>
+            </button>
+        </div>
 
-    <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-        <span class="btn btn-success"></span>
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
 
-        <span class="btn btn-info"></span>
+            <span class="btn btn-info"></span>
 
-        <span class="btn btn-warning"></span>
+            <span class="btn btn-warning"></span>
 
-        <span class="btn btn-danger"></span>
-    </div>
-</div><!-- #sidebar-shortcuts -->
+            <span class="btn btn-danger"></span>
+        </div>
+    </div><!-- #sidebar-shortcuts -->
 
     <ul class="nav nav-list">
         <li class="active">
@@ -68,25 +69,77 @@
         <li>
             <a href="#" class="dropdown-toggle">
                 <i class="icon-desktop"></i>
-                <span class="menu-text">权限管理</span>
+                <span class="menu-text">
+                    <?php
+                        echo $array[4]['p_name'];
+                    ?>
+                </span>
 
                 <b class="arrow icon-angle-down"></b>
             </a>
 
             <ul class="submenu">
-                <li>
-                    <a href="<?php echo site_url('manage/manage_index')?>">
-                        <i class="icon-double-angle-right"></i>
-                        添加管理员
-                    </a>
-                </li>
+                <?php
+                //print_r($array);die;
+                foreach ($array as $key => $val) {
 
+                if ($val['parent_id']!=0) {
+                $controller = $val['p_controller'];
+                $action = $val['p_action']; ?>
                 <li>
-                    <a href="<?php echo site_url('manage/manage_list')?>">
+                    <a href="<?php echo site_url().'/'.$controller.'/'.$action;?>">
                         <i class="icon-double-angle-right"></i>
-                       管理员列表
+                        <?php
+                            echo $val['p_name'];
+
+                        ?>
                     </a>
                 </li>
+                <?php   }
+                } ?>
+
+                <!--  <li>
+                     <a href="<?php echo site_url('manage/manage_list')?>">
+                         <i class="icon-double-angle-right"></i>
+                        管理员列表
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('role/role_add')?>">
+                         <i class="icon-double-angle-right"></i>
+                        添加角色
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('role/role_list')?>">
+                         <i class="icon-double-angle-right"></i>
+                        角色列表
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('privilege/pri_list')?>">
+                         <i class="icon-double-angle-right"></i>
+                        权限列表
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('privilege/pri_add')?>">
+                         <i class="icon-double-angle-right"></i>
+                        添加权限
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('privilege/role_pri')?>">
+                         <i class="icon-double-angle-right"></i>
+                        角色分配权限
+                     </a>
+                 </li>
+                 <li>
+                     <a href="<?php echo site_url('role/admin_role')?>">
+                         <i class="icon-double-angle-right"></i>
+                        用户分配角色
+                     </a>
+                 </li> -->
             </ul>
         </li>
 
@@ -153,14 +206,14 @@
                 <li>
                     <a href="<?php echo site_url('brand/brand_edit')?>">
                         <i class="icon-double-angle-right"></i>
-                      品牌分类
+                        品牌分类
                     </a>
                 </li>
 
                 <li>
                     <a href="<?php echo site_url('brand/brand_list')?>">
                         <i class="icon-double-angle-right"></i>
-                     品牌列表
+                        品牌列表
                     </a>
                 </li>
             </ul>
