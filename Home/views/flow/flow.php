@@ -199,12 +199,12 @@
 				sweetAlert('请检查是否选中商品')
 			}else{
 				$.post("<?php echo site_url('flow/goshoping') ?>",{id:id},function(m){
-		       		if(m==1){
-		       			 window.location.href="<?=site_url('flow/flow3'); ?>"
+		       		if(m.msg == 1){
+		       			 window.location.href="<?=site_url('flow/flow3'); ?>?id="+m.rec_id;
 		       		}else{
 		       			sweetAlert('您没有该商品');
 		       		}
-				});
+				},"json");
 			}
 		<?php }else{ ?>
 			sweetAlert('请先登录');

@@ -52,6 +52,7 @@ class Index extends CI_Controller {
 		 $uid=$this->session->userdata('uid');
 		$this->session->unset_userdata('uname');
 		$this->session->unset_userdata('uid');
+		$this->session->unset_userdata('shop_cart');//删除购物车
 		redirect('Index/index');
 	}
 }

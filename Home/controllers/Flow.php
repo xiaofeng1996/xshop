@@ -180,7 +180,6 @@ class Flow extends CI_Controller {
 	 * 批量删除商品id
 	 * @return [type] [description]
 	 */
-
 	public function p_delete()
 	{
 		//获取要删除的session中的购物id
@@ -310,6 +309,7 @@ class Flow extends CI_Controller {
 			$x_cart = $this->db->get_where('x_cart',['user_id'=>$uid])->result_array();
 			$data=array();
 			//订单数据更新
+			$rec_id = "";
 			foreach ($x_cart as $key => $val) {
 				$data['user_id']=$val['user_id'];
 				$data['goods_id']=$val['goods_id'];
@@ -319,22 +319,28 @@ class Flow extends CI_Controller {
 				$data['goods_price']=$val['goods_price'];
 				$data['order_sn']="Hu".date('YmdHis');//订单号
 				$data['is_status']=0;//订单状态 0未付款
-				$query = $this->db->get_where('x_order_goods', array('user_id' => $val['user_id'],'goods_id'=>$val['goods_id'],'is_status'=>'0'))->row_array();
+				$data['rec_id']=$val['rec_id'];//购物车id
+				$query = $this->db->get_where('x_order_goods', array('user_id' => $val['user_id'],'goods_id'=>$val['goods_id'],'is_status'=>'0','rec_id'=>$val['rec_id']))->row_array();
+				//print_r($query);die;
 				if($query){
 					$data['goods_number']=$query['goods_number'] + $val['goods_number'];
 					$order_id = $query['order_id'];
+					
 					$order=$this->db->update('x_order_goods', $data, "order_id = $order_id");
 				}else{
-					$order=$this->db->insert('x_order_goods', $data);
+					$order=$this->db->insert_id('x_order_goods', $data);
+				
 				}
+				$rec_id .= $val['rec_id'].',';
 			}
+			$rec_id = rtrim($rec_id,',');
 			if($order){
-				echo "1";
+				echo json_encode(['msg'=>1,'rec_id'=>$rec_id]);
 			}else{
-				echo "0";
+				echo json_encode(['msg'=>0]);
 			}
 		}else{
-			echo "0";
+			echo json_encode(['msg'=>0]);
 		}
 	}
 	/**
@@ -344,13 +350,21 @@ class Flow extends CI_Controller {
 	 */
 	public function flow3()
 	{
-		$uid=$this->session->userdata('uid');//用户id
-		if(!empty($uid)){
-			$data['order'] = $this->db->get_where('x_order_goods', array('user_id' => $uid,'is_status'=>'0'))->result_array();
-			$data['address'] = $this->db->get_where('x_user_address', array('user_id' => $uid))->result_array();
-			$this->load->view('flow/flow2',$data);
-		}else{
-			redirect('flow/flow');
+		//获取要添加购物id
+		$id=$this->input->get('id');//商品id
+		if($id != ""){
+			$uid=$this->session->userdata('uid');//用户id
+			if(!empty($uid)){
+				$id=explode(',', $id);
+				//查询购物车id获取商品id
+				foreach ($id as $key => $val) {
+					$data['order'][] = $this->db->get_where('x_order_goods', array('user_id' => $uid,'is_status'=>'0','rec_id'=>$val))->row_array();
+				}
+				$data['address'] = $this->db->get_where('x_user_address', array('user_id' => $uid))->result_array();
+				$this->load->view('flow/flow2',$data);
+			}else{
+				redirect('flow/flow');
+			}
 		}
 	}
 

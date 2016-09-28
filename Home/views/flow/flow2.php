@@ -169,7 +169,7 @@
 				<!--确认收货订单-->
 				<?php foreach ($order as $key => $val): ?>
 					<tr>
-						<td class="gwc_list_title"><a href=""></a></td>
+						<td class="gwc_list_title"><a href=""> <input type="text" name="rec_id[]" value="<?=$val['rec_id'] ?>" /> </a></td>
 						<td class="gwc_list_title"><a href=""><?=$val['goods_name']?> </a></td>
 						<td class="gwc_list_danjia"><span>￥<strong id="danjia_001"><?=$val['goods_price']?></strong></span></td>
 						<td class="gwc_list_shuliang"><span><?=$val['goods_number']?></span></td>
