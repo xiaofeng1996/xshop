@@ -6,7 +6,7 @@ class Admin_model extends CI_Model
 	// 表名
 	
 	const TB_admin = 'admin';
-	
+
 	public function __construct()
 	
 	{	
@@ -21,7 +21,14 @@ class Admin_model extends CI_Model
 		return  $this->db->get(self::TB_admin)->result_array();
 	
 	}
-	
+
+	//查询单个管理员
+
+	public function getOne($aid){
+
+		return  $this->db->select('adminname')->where('aid',$aid)->get(self::TB_admin)->result_array();
+
+	}
 	//删除
 	
 	public function del($id){

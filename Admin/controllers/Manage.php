@@ -71,9 +71,7 @@ class Manage extends MY_Controller
 
     public function dele(){
 
-        if(IS_AJAX){
-
-            $del = $this->input->post('del');
+            $del = $this->input->get('aid');
 
             $res = $this->admin->del("aid=$del");
 
@@ -87,72 +85,40 @@ class Manage extends MY_Controller
 
             }
 
-        }else{
-
-            echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
-
-        }
-
-
     }
 
     //极点技改用户名
 
-    public function updata(){
+    public function edt($aid=null){
 
-        if(IS_AJAX){
+        if($_POST){
 
-            $name=$this->input->post('pname');
+            $data = $this->input->post();
 
-            $nameall=$this->admin->selname();
+            $data['pwd'] =md5($data['pwd']);
 
-            $arr=array();
-
-            foreach($nameall as $k=>$v){
-
-                $arr[]=$v['adminname'];
-
-            }
-
-            foreach($arr as $k=>$v){
-
-                if("$name"=="$v"){
-
-                    echo 3;
-
-                    die;
-
-                }
-
-            }
-
-            $data=array(
-
-                'adminname'=>$name
-
-            );
-
-            $where = 'aid='.$this->input->post('id');
+            $where = 'aid='.$data['aid'];
 
             $res=$this->admin->upd($where,$data);
 
             if($res){
 
                 //成功
-
-                echo 1;die;
+                $this->success("修改成功",site_url('Manage/manage_list'));
 
             }else{
 
                 //失败
 
-                echo 0;die;
+                $this->success("修改失败",site_url('Manage/manage_list'));
 
             }
 
         }else{
-
-            echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+            $admin_info = $this->admin->getOne($aid);
+            $this->load->vars('adminname',$admin_info[0]['adminname']);
+            $this->load->vars('aid',$aid);
+            $this->load->view('admin/Manage/manage_edt.html');
         }
 
     }
