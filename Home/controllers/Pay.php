@@ -61,7 +61,7 @@ class Pay extends CI_Controller {
             "out_trade_no"	=> $order_sn, // 商户网站订单系统中唯一订单号
             "subject"	=> $goods_name, // 订单名称
             "body"	=> "化肥便宜了", // 订单描述 可选
-            "total_fee" => "0.01", // 付款金额
+            "total_fee" => $nums_price, // 付款金额
             "show_url"	=> "", // 商品展示地址 可选
             "anti_phishing_key"	=> "", // 防钓鱼时间戳  若要使用请调用类文件submit中的query_timestamp函数
             "exter_invoke_ip"	=> "", // 客户端的IP地址
