@@ -89,7 +89,15 @@
 
                                     <td class="hidden-480">
                                 
-                                        <span class="label label-sm label-warning">开放</span>
+                                        <span class="label label-sm label-warning">
+                                            <?php
+                                            if($val['lock'] == 0){
+                                                echo '开放';
+                                            }else{
+                                                echo '锁定';
+                                            }
+                                         ?>
+                                        </span>
                                     </td>
 
                                     <td>
