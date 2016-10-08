@@ -18,8 +18,29 @@ class Brand extends  MY_Controller
     /*
      * 品牌列表
      */
-    public  function  brand_list(){
-        $data['data']=$this->db->get('brand')->result_array();
+    public  function  brand_list($offset=''){
+        //加载分页类
+        $this->load->library('pagination');
+        //请求的URL地址
+        $config['base_url']=site_url('Brand/brand_list');
+        //查询出所有的条数
+        $config['total_rows']=$this->db->count_all('brand');
+        //设置每页显示的条数
+        $config['per_page']=6;
+        //传递的页码参数的值
+        $config['uri_segment'] = 4;
+        //修改显示
+        $config['first_link']='首页';
+        $config['last_link']='末页';
+        $config['next_link'] = '下一页';
+        $config['prev_link'] = '上一页';
+        $config['use_page_numbers'] = TRUE;
+        //初始化分页类
+        $this->pagination->initialize($config);
+        //生成分页字符串
+        $data['pagestr']=$this->pagination->create_links();
+        $limit=$config['per_page'];
+        $data['data']=$this->db->limit($limit,$offset)->get('brand')->result_array();
         $this->load->view("admin/brand/brand_list.html",$data);
     }
     /*
