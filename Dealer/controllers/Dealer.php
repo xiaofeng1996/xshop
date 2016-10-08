@@ -158,6 +158,76 @@ class Dealer extends MY_Controller {
 
 
 
+	/*
+	 * 删除商品
+	 */
+	public function del_goods(){
+		$goods_id = $this->uri->segment(3, 0);
+		$data = array(
+			'is_delete' => 1
+		);
+		$res = $this->db->where('goods_id', $goods_id)->update('dea_goods',$data);
+		if($res){
+			redirect('dealer/index');
+		}
+	}
+
+	/*
+	 * 修改商品
+	 */
+	public function up_goods(){
+		if($this->input->post()){
+			$goods_img = $_FILES['goods_img'];
+			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
+			$filename=time().rand(1000,9999).'.'.$img_type;
+			$config['upload_path'] = './public/upload/dealer/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['file_name'] = $filename;
+			$config['encrypt_name'] = false;
+			$config['max_size'] = '10000';
+			$config['max_width'] = '10000';
+			$config['max_height'] = '5000';
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('goods_img')){
+				$goods_id = $this->input->post('goods_id');
+				$data = $this->input->post();
+				$data['goods_img'] = $config['upload_path'].$filename;
+				$data['last_update'] = date("Y-m-d H:i:s",time());
+				if(empty($data['is_new'])){
+					$data['is_new']=0;
+				}
+				if(empty($data['is_hot'])){
+					$data['is_hot']=0;
+				}
+				if(empty($data['is_best'])){
+					$data['is_best']=0;
+				}
+				$res = $this->db->where('goods_id',$goods_id)->update('dea_goods',$data);
+				if($res){
+					redirect('dealer/index');
+				}
+
+			}
+		}else{
+			$goods_id = $this->uri->segment(3,0);
+			//查询商品
+			$data['data'] = $this->db->where('goods_id',$goods_id)->get('dea_goods')->row_array();
+			//查询商品类型
+			$data['type1'] = $this ->db->where('cat_id',$data['data']['cat_id'])->get('category')->row_array();
+			$type=$this->db->get('category')->result_array();
+			$data['type'] = $this->nodetree($type,0);
+
+			//查询商品品牌
+			$data['brand1'] = $this->db->where('brand_id',$data['data']['brand_id'])->get('brand')->row_array();
+			$data['brand'] = $this->db->get('brand')->result_array();
+			//print_r($data);die;
+			$this -> load->view('admin/dealer/up_goods.html',$data);
+		}
+	}
+
+
+
+
 
 	/*
 	 * 查询商品类型
