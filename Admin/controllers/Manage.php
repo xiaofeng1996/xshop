@@ -59,9 +59,9 @@ class Manage extends MY_Controller
         //加载分页类
         $this->load->library('pagination');
         //请求的URL地址
-        $config['base_url']=site_url('product/index');
+        $config['base_url']=site_url('manage/manage_list');
         //查询出所有的条数
-        $config['total_rows']=$this->db->count_all('product_goods');
+        $config['total_rows']=$this->db->count_all('admin');
         //设置每页显示的条数
         $config['per_page']=4;
         //传递的页码参数的值
@@ -84,11 +84,11 @@ class Manage extends MY_Controller
         $limit=$config['per_page'];
 
         $data['data'] = $this -> db ->limit($limit,$offset1) ->get('admin')->result_array();
-        $manage_list = $this->admin->sel();
+       /* $manage_list = $this->admin->sel();
 
-        $this->load->vars('manage',$manage_list);
+        $this->load->vars('manage',$manage_list);*/
 
-        $this->load->view('admin/Manage/manage_list.html');
+        $this->load->view('admin/Manage/manage_list.html',$data);
 
     }
 

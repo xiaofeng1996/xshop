@@ -56,15 +56,36 @@ class Privilege extends MY_Controller
     	}
     }
 
-    public function pri_list(){
-
-    	$data = $this->privilege->sel();
-
-    	$arr =  level_auto($data);
-
-    	$this->load->vars('arr',$arr);
-    	
-    	$this->load->view('admin/privilege/pri_list.html');
+    public function pri_list($offset=""){
+		//加载分页类
+		$this->load->library('pagination');
+		//请求的URL地址
+		$config['base_url']=site_url('privilege/pri_list');
+		//查询出所有的条数
+		$config['total_rows']=$this->db->count_all('privilege');
+		//设置每页显示的条数
+		$config['per_page']=8;
+		//传递的页码参数的值
+		$config['uri_segment'] = 8;
+		//修改显示
+		$config['first_link']='首页';
+		$config['last_link']='末页';
+		$config['next_link'] = '下一页';
+		$config['prev_link'] = '上一页';
+		$config['use_page_numbers'] = TRUE;
+		//初始化分页类
+		$this->pagination->initialize($config);
+		if($offset==""){
+			$offset1 = 0;
+		}else{
+			$offset1 = ($offset-1)*$config['per_page'];
+		}
+		//生成分页字符串
+		$data['pagestr']=$this->pagination->create_links();
+		$limit=$config['per_page'];
+		$arr = $this->db ->limit($limit,$offset1) ->get('privilege')->result_array();
+		$data['data'] =  level_auto($arr);
+    	$this->load->view('admin/privilege/pri_list.html',$data);
     }
    	
 
