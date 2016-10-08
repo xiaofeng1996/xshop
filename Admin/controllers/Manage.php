@@ -55,8 +55,35 @@ class Manage extends MY_Controller
      */
 
 
-    public  function  manage_list(){
+    public  function  manage_list($offset=""){
+        //加载分页类
+        $this->load->library('pagination');
+        //请求的URL地址
+        $config['base_url']=site_url('product/index');
+        //查询出所有的条数
+        $config['total_rows']=$this->db->count_all('product_goods');
+        //设置每页显示的条数
+        $config['per_page']=4;
+        //传递的页码参数的值
+        $config['uri_segment'] = 4;
+        //修改显示
+        $config['first_link']='首页';
+        $config['last_link']='末页';
+        $config['next_link'] = '下一页';
+        $config['prev_link'] = '上一页';
+        $config['use_page_numbers'] = TRUE;
+        //初始化分页类
+        $this->pagination->initialize($config);
+        if($offset==""){
+            $offset1 = 0;
+        }else{
+            $offset1 = ($offset-1)*$config['per_page'];
+        }
+        //生成分页字符串
+        $data['pagestr']=$this->pagination->create_links();
+        $limit=$config['per_page'];
 
+        $data['data'] = $this -> db ->limit($limit,$offset1) ->get('admin')->result_array();
         $manage_list = $this->admin->sel();
 
         $this->load->vars('manage',$manage_list);
