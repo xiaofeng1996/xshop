@@ -13,10 +13,11 @@
         <ul class="breadcrumb">
             <li>
                 <i class="icon-home home-icon"></i>
-                <a href="#">首页</a>
+                <a href="<?php echo site_url('index/index')?>">首页</a>
             </li>
+
             <li>
-                <a href="#">品牌管理</a>
+                <a href="<?php echo site_url('Category/category_list')?>">商品分类管理</a>
             </li>
             <li class="active">分类列表</li>
         </ul><!-- .breadcrumb -->
@@ -35,7 +36,7 @@
                 <!-- PAGE CONTENT BEGINS -->
                 <h4 class="pink">
                     <i class="icon-hand-right icon-animated-hand-pointer blue"></i>
-                    <a href="<?php echo site_url('brand/category_edit')?>" role="button" class="green" data-toggle="modal">添加分类</a>
+                    <a href="<?php echo site_url('Category/category_edit')?>" role="button" class="green" data-toggle="modal">添加分类</a>
                 </h4>
                 <div class="row">
                     <div class="col-xs-12">
@@ -78,7 +79,7 @@
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
 
-                                            <a href="">修改</a>
+                                            <a href="<?php echo site_url().'/Category/update/'.$value['cat_id'];?>" class="" id="">修改</a>
                                             <a href="javascript:void(0)" id="<?= $value['cat_id']?>"  class="delete">删除</a>
                                         </div>
                                     </td>
