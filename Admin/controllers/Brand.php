@@ -71,4 +71,44 @@ class Brand extends  MY_Controller
             echo 0;
         }
     }
+    /*
+     * 修改数据
+     */
+    public  function  update(){
+        //获取id
+        $id = $this->uri->segment(3, 0);
+        $data['data'] = $this -> db -> where('brand_id',$id) -> get('brand')->row_array();
+       // print_r($data);die;
+        $this->load->view("admin/brand/brand_update.html",$data);
+    }
+    /*
+     * 修改
+     */
+    public  function updates(){
+
+        $goods_img = $_FILES['brand_logo'];
+        $img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
+        $filename=time().rand(1000,9999).'.'.$img_type;
+        $config['upload_path'] = './public/upload/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['file_name'] = $filename;
+        $config['encrypt_name'] = false;
+        $config['max_size'] = '5000';
+        $config['max_width'] = '5000';
+        $config['max_height'] = '1000';
+        $this->load->library('upload', $config);
+        //判断是否上传成功
+        if($this->upload->do_upload('brand_logo')){
+            $id = $this->input->post('brand_id');
+            $data = $this -> input ->post();
+            $data['brand_logo'] = $config['upload_path'].$filename;
+            $this->db->where("brand_id",$id)->update("brand",$data);
+
+            echo "<script>alert('修改成功');location.href='".site_url('brand/brand_list')."'</script>";
+
+        }else{
+
+            echo "<script>alert('修改失败');location.href='".site_url('brand/brand_list')."'</script>";
+        }
+    }
 }

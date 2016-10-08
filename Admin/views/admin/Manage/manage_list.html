@@ -89,19 +89,31 @@
 
                                     <td class="hidden-480">
                                 
-                                        <span class="label label-sm label-warning">开放</span>
+                                        <span class="label label-sm label-warning">
+                                            <?php
+                                            if($val['lock'] == 0){
+                                                echo '开放';
+                                            }else{
+                                                echo '锁定';
+                                            }
+                                         ?>
+                                        </span>
                                     </td>
 
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
 
-                                            <button class="btn btn-xs btn-danger del">
-                                                <i class="icon-trash bigger-120"></i>
+                                            <button class="btn btn-xs btn-danger del" name="edt">
+                                               修改
                                             </button>
 
-                                           
-                                        </div>
+                                            <button class="btn btn-xs btn-danger del" name="del">
+                                                删除
+                                            </button>
 
+
+                                        </div>
+                                        <input type="hidden" name="aid" value="<?=$val['aid']?>">
                                         <div class="visible-xs visible-sm hidden-md hidden-lg">
                                             <div class="inline position-relative">
                                                 <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -145,10 +157,10 @@
                     </div><!-- /span -->
                 </div><!-- /row -->
                 <div class="hr hr-18 dotted hr-double"></div>
-                <h4 class="pink">
+          <!--      <h4 class="pink">
                     <i class="icon-hand-right icon-animated-hand-pointer blue"></i>
                     <a href="#modal-table" role="button" class="green" data-toggle="modal"> 这是分页 </a>
-                </h4>
+                </h4>-->
                 <div class="hr hr-18 dotted hr-double"></div>
                 <div id="modal-table" class="modal fade" tabindex="-1">
                     <div class="modal-dialog">
@@ -318,6 +330,17 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+    $(":input[name='del']").click(function(){
+        var obj = $(this);
+        var aid=$(this).parent().next().val();
+        $.get("<?=site_url('manage/dele')?>",{aid:aid},function(msg){
+                obj.parents('tr').remove();
+        })
+    })
+    $(":input[name='edt']").click(function(){
+        var aid=$(this).parent().next().val();
+       window.location.href="<?=site_url('manage/edt/"+aid+"')?>";
+    })
     jQuery(function($) {
         $('.easy-pie-chart.percentage').each(function(){
             var $box = $(this).closest('.infobox');

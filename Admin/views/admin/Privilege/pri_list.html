@@ -63,7 +63,7 @@
                                                         <th>权限名称</th>
                                                         <th>控制器</th>
                                                         <th class="hidden-480">方法</th>
-                                                        <th class="hidden-480">操作</th>
+                                                      <!--  <th class="hidden-480">操作</th>-->
 
                                                         
                                                     </tr>
@@ -89,10 +89,11 @@
                                                         <span>
                                                             <?=$val['p_action']?></span>
                                                         </td>
-                                                        <td>
+                                                       <!-- <td>
+                                                            <input type="hidden" name="id" value="<?=$val['id']?>">
                                                             <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
-                                                                <button class="btn btn-xs btn-danger del">
-                                                                    <i class="icon-trash bigger-120"></i>
+                                                                <button class="btn btn-xs btn-danger del" name="del">
+                                                                    删除
                                                                 </button>
 
                                                             </div>
@@ -130,7 +131,7 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                        </td>
+                                                        </td>-->
                                                     </tr>
                                                     <?php }?>
                                                     
@@ -144,7 +145,7 @@
 
                 <h4 class="pink">
                     <i class="icon-hand-right green"></i>
-                    <a href="#modal-form" role="button" class="blue" data-toggle="modal">需要什么数据自行添加</a>
+                    <a href="#modal-form" role="button" class="blue" data-toggle="modal"></a>
                 </h4>
                     <div class="alert alert-block alert-success" style="width:200px;height: 100px; position: fixed;top: 0px;left: 0px;right: 0px; bottom: 0px; margin: auto; display: none;">
                                             <button type="button" class="close" data-dismiss="alert">
@@ -211,6 +212,7 @@
         </script>
 
 <script type="text/javascript">
+
     jQuery(function($) {
         $('.easy-pie-chart.percentage').each(function(){
             var $box = $(this).closest('.infobox');

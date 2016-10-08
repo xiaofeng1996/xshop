@@ -197,22 +197,19 @@ class Privilege extends MY_Controller
 	}
 
 	public function dele(){
-		if(IS_AJAX){
-			$del=$this->input->post('del');
-			$show=$this->privilege->seldel("parent_id='$del'");
-			if($show){
-				//有子分类不能删除
-				echo 3;die;
-			}else{
-				$res=$this->privilege->del("id='$del'");
-				if($res){
-					echo 1;die;
-				}else{
-					echo 0;die;
-				}
-			}
+		$id=$this->input->get('id');
+		echo $id;die;
+		$show=$this->privilege->seldel("parent_id='$del'");
+		if($show){
+			//有子分类不能删除
+			echo 3;die;
 		}else{
-			echo "<script>alert('非法操作');location.href='".$_SERVER['HTTP_REFERER']."'</script>";die();
+			$res=$this->privilege->del("id='$del'");
+			if($res){
+				echo 1;die;
+			}else{
+				echo 0;die;
+			}
 		}
 
 	}
