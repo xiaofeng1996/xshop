@@ -73,15 +73,16 @@ class Category extends MY_Controller
     /*
      *  权限树
      */
-    protected function nodetree($data,$pid=0){
-        $arr  =array();
-        foreach($data as $k=>$v)
-        {
-           if($v['parent_id']==$pid){
-               $arr[$k] = $v;
-               $arr[$k]['son']=  $this->nodetree($data,$v['cat_id']);
-           }
+    protected function nodetree($data, $pid = 0)
+    {
+        $arr = array();
+        foreach ($data as $k => $v) {
+            if ($v['parent_id'] == $pid) {
+                $arr[$k] = $v;
+                $arr[$k]['son'] = $this->nodetree($data, $v['cat_id']);
+            }
         }
+        
         return $arr;
     }
     /*
