@@ -59,40 +59,37 @@
 			<div class="shop_bd_shdz clearfix">
 				<div class="shop_bd_shdz_lists clearfix">
 					<ul>
-						<li><label><span><input type="radio" name="shdz" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em><span class="admin_shdz_btn"><a href="<?php echo site_url('address/addressedit'); ?>">编辑</a><a href="<?php echo site_url('address/addressedit'); ?>">删除</a></span></li>
-
-						<li><label><span><input type="radio" name="shdz" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em><span class="admin_shdz_btn"><a href="<?php echo site_url('address/addressedit'); ?>">编辑</a><a href="">删除</a></span></li>
-
-						<li><label><span><input type="radio" name="shdz" /></span></label><em>北京</em><em>北京市</em><em>昌平区</em><em>回龙观东大街</em><em>王超平(收)</em><em>1336699232</em><span class="admin_shdz_btn"><a href="<?php echo site_url('address/addressedit'); ?>">编辑</a><a href="">删除</a></span></li>
-
-						
+						<?php foreach ($address as $key => $val): ?>
+						<li><label>寄送至：<span><input type="radio" name="address_id" value="<?=$val['address_id']?>" /></span></label><em><?=$val['address']?></em><em><?=$val['consignee']?>(收)</em><em><?=$val['tel']?></em></li>
+							
+						<?php endforeach ?>
 					</ul>
 				</div>
 				<!-- 新增收货地址 -->
 				<div id="new_add_shdz_contents" style="display:none;" class="shop_bd_shdz_new clearfix">
 					<div class="title">新增收货地址</div>
 					<div class="shdz_new_form">
-						<form action="">
+						<form action="<?php echo site_url('address/addressadd') ?>" method="post">
 							<ul>
-								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" class="name" /></li>
+								<li><label for=""><span>*</span>收货人姓名：</label><input type="text" name="consignee" class="name" /></li>
 								<li><label for=""><span>*</span>所在地址：</label>
-									<select class="province" onchange="getCity()">
+									<select class="province" name="country" onchange="getCity()">
 										<option value="-1">请选择..</option>
 										<?php foreach($province as $k=>$v){?>
 												<option value="<?php echo $v['region_id'];?>"><?php echo $v['region_name'];?></option>
 										<?php }?>
 									</select>
-									<select class="city" onchange="getDistrict()">
+									<select class="city" name="province" onchange="getDistrict()">
 										<option value="-1">请选择..</option>
 									</select>
-									<select class="district">
+									<select class="district" name="city">
 										<option value="-1">请选择..</option>
 									</select>
 								</li>
-								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" /></li>
-								<li><label for=""><span></span>邮政编码：</label><input type="text" class="youbian" /></li>
-								<li><label for=""><span></span>电话：</label><input type="text" class="dianhua" /></li>
-								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" /></li>
+								<li><label for=""><span>*</span>详细地址：</label><input type="text" class="xiangxi" name="address" /></li>
+								<li><label for=""><span></span>邮政编码：</label><input type="text" class="youbian" name="sign_building" /></li>
+								<li><label for=""><span></span>电话：</label><input type="text" class="dianhua" name="mobile" /></li>
+								<li><label for=""><span></span>手机号：</label><input type="text" class="shouji" name="tel" /></li>
 								<li><label for="">&nbsp;</label><input type="submit" value="增加收货地址" /></li>
 							</ul>
 						</form>

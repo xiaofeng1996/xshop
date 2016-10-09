@@ -18,6 +18,7 @@ class Order extends CI_Controller {
 		$data['order']=$order;
 		$this->load->view('order/order',$data);
 	}
+	
 	/**
 	 * 进入支付页面
 	 * @return [type] [description]

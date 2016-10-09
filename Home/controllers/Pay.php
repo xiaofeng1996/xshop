@@ -56,7 +56,7 @@ class Pay extends CI_Controller {
             "partner" => $alipay_config['partner'], // 合作身份者id
             "seller_email" => $alipay_config['seller_email'], // 收款支付宝账号
             "payment_type"	=> '1', // 支付类型
-            "notify_url"	=> "http://bw.com133.com/notify_url.php", // 服务器异步通知页面路径
+            "notify_url"	=> site_url("pay/notify_url"), // 服务器异步通知页面路径
             "return_url"	=> site_url("pay/return_url"), // 页面跳转同步通知页面路径
             "out_trade_no"	=> $order_sn, // 商户网站订单系统中唯一订单号
             "subject"	=> $goods_name, // 订单名称
@@ -132,6 +132,35 @@ class Pay extends CI_Controller {
 	    	echo "<script> alert('支付失败');location.href='".site_url('flow/flow3')."';</script>";
 	    }  
            
+    }
+    /**
+     * 支付宝异步
+     * @return [type] [description]
+     */
+    function notify_url(){
+         if($_GET['is_success']=="T"){
+            $order_sn=$_GET['out_trade_no'];
+            $g_name=$_GET['subject'];
+            $data = array('o_status' =>0 , );
+            $orders_sn = explode(',',$order_sn);
+
+            //print_r($order_sn);die;
+            if(!empty($orders_sn)){
+                $count=count($orders_sn);
+                $dat['is_status']='1';
+                $dat['pay_time']=date('Y-m-d H:i:s');
+                for ($i=0; $i < $count; $i++) { 
+                $res=$this->db->update('x_order_goods',$dat,array('is_status'=>'0','order_sn'=>$orders_sn[$i]));
+                }
+                if($res){
+                    redirect("order/pay_orders?order_sn=$order_sn");
+                }else{
+                    redirect("flow/flow3");
+                }
+            }
+        } else{
+            echo "<script> alert('支付失败');location.href='".site_url('flow/flow3')."';</script>";
+        }  
     }
 
 

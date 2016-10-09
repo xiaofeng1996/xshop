@@ -109,6 +109,7 @@
 							<div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">0</strong></span></div>
 							<div class="clear"></div>
 							<div class="gwc_foot_links">
+								<input type="hidden" id="uid" value="<?=$uid; ?>" />
 								<a href="<?php echo site_url('index/index') ?>" class="go">继续购物</a>
 								<a href="javascript:void(0)" class="op" id="firmorder">确认并填写订单</a>
 							</div>
@@ -186,7 +187,8 @@
 	})
 	//确认收货订单
 	$(document).on('click','#firmorder',function(){
-		<?php if( !empty($this->session->userdata('uid') ) ){ ?>
+		var uid=$("#uid").val();
+		if(uid != ""){
 			obj=$(':checkbox');
 			var arr=Array();
 			for (var i = 0; i < obj.length; i++) {
@@ -206,9 +208,10 @@
 		       		}
 				},"json");
 			}
-		<?php }else{ ?>
+		}else{
 			sweetAlert('请先登录');
-		<?php } ?>		
+			window.location.href="<?=site_url('login/login'); ?>?flow=1";
+		}
 	})
 </script>
 </html>

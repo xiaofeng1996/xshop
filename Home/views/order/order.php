@@ -65,8 +65,6 @@
 					<tbody>
 					<!-- 订单列表 -->
 					<?php foreach ($order as $key => $val): ?>
-						
-					
 						<tr><td colspan="5">
 							<table class="good">
 								<thead >

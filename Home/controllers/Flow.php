@@ -48,6 +48,7 @@ class Flow extends CI_Controller {
 				$data['shop_cart']=$shop_cart;
 			}
 		}
+		$data['uid']=$this->session->userdata('uid');
 		$this->load->view('flow/flow',$data);
 	}
 	/**

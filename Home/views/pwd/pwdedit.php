@@ -57,11 +57,10 @@
 				<div class="title"><h3>修改密码</h3></div>
 				<div class="clear"></div>
 				<dic class="shop_home_form">
-					<form athion="" name="" class="shop_form" method="post">
+					<form athion="<?php echo site_url('password/pwdedit'); ?>" name="" class="shop_form" method="post">
 						<ul>
-							<li class="bn"><label>原密码：</label><input type="password" class="truename form-text" /></li>
-							<li class="bn"><label>新密码：</label><input type="password" class="truename form-text" /></li>
-							<li class="bn"><label>重复新密码：</label><input type="password" class="truename form-text" /></li>
+							<li class="bn"><label>原密码：</label><input type="password" name="pwd" class="truename form-text" /></li>
+							<li class="bn"><label>新密码：</label><input type="password" name="pwd1" class="truename form-text" /></li>
 							<li class="bn"><label>&nbsp;</label><input type="submit" class="form-submit" value="保存修改" /></li>
 						</ul>
 					</form>
