@@ -54,15 +54,27 @@
 				<div class="title"><h3>基本信息</h3></div>
 				<div class="clear"></div>
 				<dic class="shop_home_form">
-					<form athion="" name="" class="shop_form" method="post">
+					<form action="<?php echo site_url('member/memberupd'); ?>" class="shop_form" method="post">
 						<ul>
-							<li><label>用户名称：</label>wanglele</li>
-							<li><label>电子邮件：</label>wanglele@hotmail.com</li>
-							<li><label>真实姓名：</label><input type="text" class="truename form-text" /></li>
+							<li><label>用户名称：</label><?=$x_user['user']?></li>
+							<li><label>电子邮件：</label><?=$x_user['email']?></li>
 							<li><label>性别:</label>
-								<input type="radio" class="mr5" name="sex" value="保密" />保密
-								<input type="radio" class="ml10 mr5" name="sex" value="男" />男
-								<input type="radio" class="ml10 mr5" name="sex" value="女" />女
+								<?php if ($x_user['sex'] == '2'): ?>
+								<input type="radio" checked="checked" class="mr5" name="sex" value="2" />保密
+								<?php else: ?>
+									<input type="radio" class="mr5" name="sex" value="2" />保密
+								<?php endif ?>
+								<?php if ($x_user['sex'] == '1'): ?>
+								<input type="radio" class="ml10 mr5" checked="checked" name="sex" value="1" />男
+								<?php else: ?>
+									<input type="radio" class="ml10 mr5" name="sex" value="1" />男
+								<?php endif ?>
+								<?php if ($x_user['sex'] == '0'): ?>
+								<input type="radio" checked="checked" class="ml10 mr5" name="sex" value="2" />女
+								<?php else: ?>
+									<input type="radio" class="ml10 mr5" name="sex" value="2" />女
+								<?php endif ?>
+								
 							</li>
 							<li class="bn"><label>&nbsp;</label><input type="submit" class="form-submit" value="保存修改" /></li>
 						</ul>

@@ -44,14 +44,18 @@ class Login extends CI_Controller {
 					 $this->session->set_userdata('uname',$d['user']);
 					 //购物车方法
 					 $this->shop_cart();
-					  
+					 $flow=$this->input->post('flow');
+					 if($flow == '1'){
+					 	die("<script>alert('登录成功');location.href='".site_url('flow/flow')."'</script>") ;
+					 }
 					die("<script>alert('登录成功');location.href='".site_url('Index/index')."'</script>") ;
 				}
 			}
 		}
 		else
 		{
-			$this->load->view('login/login');
+			$data['flow']=$this->input->get('flow');
+			$this->load->view('login/login',$data);
 		}
 	}
 	/**
