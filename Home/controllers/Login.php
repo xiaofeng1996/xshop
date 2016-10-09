@@ -95,7 +95,7 @@ class Login extends CI_Controller {
 		    	}
 		    	//判断购物车中是否有该商品
 			    if($x_cart){
-			    	$x_cart['goods_number']=empty( intval($x_cart['goods_number']) )?'1':intval($x_cart['goods_number']);//判断是否是整形
+			    	//$x_cart['goods_number']=empty( intval($x_cart['goods_number']) )?'1':intval($x_cart['goods_number']);//判断是否是整形
 			    	$shop[$val]['goods_number']= $x_cart['goods_number'] + $shop_cart[$val]['goods_number']; //在本条件下增加数量
 			    	$data=$shop[$val];
 			    	$update=$this->db->update('x_cart', $data, array('goods_id' => $val,'user_id'=>$uid));

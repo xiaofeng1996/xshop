@@ -83,7 +83,7 @@ class Flow extends CI_Controller {
 			    //判断购物车中是否有该商品
 			    $x_cart = $this->db->get_where('x_cart',['goods_id' => $goods_id,'user_id'=>$uid])->row_array();
 			    if($x_cart){
-			    	$x_cart['goods_number']=empty( intval($x_cart['goods_number']) )?'1':intval($x_cart['goods_number']);//判断是否是整形
+			    	//$x_cart['goods_number']=empty( intval($x_cart['goods_number']) )?'1':intval($x_cart['goods_number']);//判断是否是整形
 			    	$shop_cart[$goods_id]['goods_number']= $x_cart['goods_number'] + $good_nums; //在本条件下增加数量
 			    	$data=$shop_cart[$goods_id];
 			    	$update=$this->db->update('x_cart', $data, array('goods_id' => $goods_id,'user_id'=>$uid));
