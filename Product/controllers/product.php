@@ -170,21 +170,42 @@ class Product extends MY_Controller {
 	 */
 	public function up_goods(){
 		if($this->input->post()){
-			$goods_img = $_FILES['goods_img'];
-			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
-			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = 'public/upload/product/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$config['file_name'] = $filename;
-			$config['encrypt_name'] = false;
-			$config['max_size'] = '10000';
-			$config['max_width'] = '10000';
-			$config['max_height'] = '5000';
-			$this->load->library('upload', $config);
-			if($this->upload->do_upload('goods_img')){
+			if($_FILES['goods_img']['name']!= ""){
+				$goods_img = $_FILES['goods_img'];
+				$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
+				$filename=time().rand(1000,9999).'.'.$img_type;
+				$config['upload_path'] = 'public/upload/product/';
+				$config['allowed_types'] = 'gif|jpg|png';
+				$config['file_name'] = $filename;
+				$config['encrypt_name'] = false;
+				$config['max_size'] = '10000';
+				$config['max_width'] = '10000';
+				$config['max_height'] = '5000';
+				$this->load->library('upload', $config);
+				if($this->upload->do_upload('goods_img')){
+					$goods_id = $this->input->post('goods_id');
+					$data = $this->input->post();
+					$data['goods_img'] = $config['upload_path'].$filename;
+					$data['last_update'] = date("Y-m-d H:i:s",time());
+					if(empty($data['is_new'])){
+						$data['is_new']=0;
+					}
+					if(empty($data['is_hot'])){
+						$data['is_hot']=0;
+					}
+					if(empty($data['is_best'])){
+						$data['is_best']=0;
+					}
+					$res = $this->db->where('goods_id',$goods_id)->update('product_goods',$data);
+					if($res){
+						redirect('product/index');
+					}
+				}else{
+					echo "<script>alert('文件上传失败');location.href='".site_url('product_goods/index')."'</script>";
+				}
+			}else{
 				$goods_id = $this->input->post('goods_id');
 				$data = $this->input->post();
-				$data['goods_img'] = $config['upload_path'].$filename;
 				$data['last_update'] = date("Y-m-d H:i:s",time());
 				if(empty($data['is_new'])){
 					$data['is_new']=0;
@@ -199,9 +220,6 @@ class Product extends MY_Controller {
 				if($res){
 					redirect('product/index');
 				}
-
-			}else{
-				echo "<script>alert('文件上传失败');location.href='".site_url('product/index')."'</script>";
 			}
 		}else{
 			$goods_id = $this->uri->segment(3,0);
