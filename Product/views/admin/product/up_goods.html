@@ -14,21 +14,21 @@
         <ul class="breadcrumb">
             <li>
                 <i class="icon-home home-icon"></i>
-                <a href="<?php echo site_url('index/index')?>">首页</a>
+                <a href="#">首页</a>
             </li>
 
             <li>
-                <a href="<?php echo site_url('Category/category_list')?>">商品分类管理</a>
+                <a href="#">权限管理</a>
             </li>
-            <li class="active">添加分类</li>
+            <li class="active">添加管理员</li>
         </ul><!-- .breadcrumb -->
 
         <div class="nav-search" id="nav-search">
             <form class="form-search">
-                <span class="input-icon">
-                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                    <i class="icon-search nav-search-icon"></i>
-                </span>
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
             </form>
         </div><!-- #nav-search -->
     </div>
@@ -38,48 +38,162 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- form 表单开始 -->
-                <form class="form-horizontal" role="form" action="<?php echo site_url('category/category_edit')?>" method="post">
+                <form class="form-horizontal" role="form" method="post" action="<?= site_url()?>/product/up_goods" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 分类名称 ：</label>
-
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品名称 ：</label>
                         <div class="col-sm-9">
-                            <input type="text" id="cat_name" placeholder="请输入" name="cat_name"  class="col-xs-10 col-sm-5" />
+                            <input type="text" id="form-field-1" placeholder="商品名称" class="col-xs-10 col-sm-5" name="goods_name" value="<?= $data['goods_name']?>"/>
                         </div>
                     </div>
-
                     <div class="space-4"></div>
-
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 上级分类 ：</label>
-
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 唯一货号 ：</label>
                         <div class="col-sm-9">
-
-                            <select name="parent_id">
-                                <option value="0">顶级分类</option>
-                                <?php foreach($data as $k=>$v){?>
-                                <option value="<?php echo $v['cat_id']?>"><?php echo $v['cat_name']?></option>
-                                <?php foreach($v['son'] as $val){?>
-                                <option value="<?php echo $val['cat_id']?>">&nbsp;&nbsp;&nbsp;--<?php echo $val['cat_name']?></option>
-                                <?php foreach($val['son'] as $value){?>
-                                <option value="<?php echo $value['cat_id']?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---<?php echo $value['cat_name']?></option>
-                                <?php }?>
-                                <?php }?>
-                                <?php }?>
-                            </select>
+                            <input type="text" id="form-field-2" placeholder="货号" class="col-xs-10 col-sm-5" name="goods_sn" value="<?= $data['goods_sn']?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 是否展示 ：</label>
-                        <input type="radio" value="0" name="is_show">&nbsp;&nbsp;是
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" value="1" name="is_show">&nbsp;&nbsp;否
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 商品分类 ：</label>
+                    ` <input type="hidden" name="goods_id" value="<?= $data['goods_id']?>">
+                        <div class="col-sm-9">
+                        <select name="cat_id">
+
+                                <?php foreach($type as $k=>$v){?>
+                                <option value="<?php echo $v['cat_id']?>"
+                                <?php if($v['cat_name']==$type1['cat_name']){?>
+                                    selected = "selected"
+                                <?php }?>
+                                ><?php echo $v['cat_name']?></option>
+                                <?php foreach($v['son'] as $val){?>
+                                <option value="<?php echo $val['cat_id']?>"
+                                <?php if($val['cat_name']==$type1['cat_name']){?>
+                                selected = "selected"
+                                <?php }?>
+                                >&nbsp;&nbsp;&nbsp;&#45;&#45;<?php echo $val['cat_name']?></option>
+                                <?php foreach($val['son'] as $value){?>
+                                <option value="<?php echo $value['cat_id']?>"
+                                <?php if($val['cat_name']==$type1['cat_name']){?>
+                                selected = "selected"
+                                <?php }?>
+                                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&#45;&#45;<?php echo $value['cat_name']?></option>
+                                <?php }?>
+                                <?php }?>
+                                <?php }?>
+                                <select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 商品品牌 ：</label>
+
+                        <div class="col-sm-9">
+
+                          <select name="brand_id">
+                              <option value="0">请选择</option>
+                                <?php foreach($brand as $k=>$v){?>
+                                <option value="<?php echo $v['brand_id']?>"
+                                  <?php if($v['brand_name']==$brand1['brand_name']){?>
+                                  selected = "selected"
+                                  <?php }?>
+                                ><?php echo $v['brand_name']?></option>
+                                <?php }?>
+                                <select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 本店售价 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="售价" class="col-xs-10 col-sm-5" name="shop_price" value="<?= $data['shop_price']?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 市场售价 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="市场售价" class="col-xs-10 col-sm-5" name="market_price" value="<?= $data['market_price']?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品图片 ：</label>
+                        <div class="col-sm-9">
+                            <img src="<?php echo base_url().$data['goods_img']?>" alt="" width="50px" height="50px">
+                            <input type="file" id="form-field-1" placeholder="图片" class="col-xs-10 col-sm-5" name="goods_img"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品重量 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="商品重量" class="col-xs-10 col-sm-5" name="goods_weight" value="<?= $data['goods_weight']?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品库存量 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="库存量" class="col-xs-10 col-sm-5" name="goods_number" value="<?= $data['goods_number']?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 库存警告数量 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="警告量" class="col-xs-10 col-sm-5" name="warn_number" value="<?= $data['warn_number']?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 加入推荐 ：</label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" value="1" name="is_new"
+                            <?php if($data['is_new']==1){?>
+                            checked = "checked"
+                            <?php }?>
+                            >新品
+                            <input type="checkbox" value="1" name="is_hot"
+                            <?php if($data['is_hot']==1){?>
+                            checked = "checked"
+                            <?php }?>
+                            >热销
+                            <input type="checkbox" value="1" name="is_best"
+                            <?php if($data['is_best']==1){?>
+                            checked = "checked"
+                            <?php }?>
+                            >精品
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 是否上架 ：</label>
+                        <div class="col-sm-9">
+                            <input type="radio" value="1" name="is_on_sale"
+                            <?php if($data['is_on_sale']==1){?>
+                            checked = "checked"
+                            <?php }?>
+                            >是
+                            <input type="radio" value="2" name="is_on_sale"
+                            <?php if($data['is_on_sale']==2){?>
+                            checked = "checked"
+                            <?php }?>
+                            >否
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品关键词 ：</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="form-field-1" placeholder="用空格分割" class="col-xs-10 col-sm-5" name="keywords" value="<?= $data['keywords']?>"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品简短描述 ：</label>
+                        <div class="col-sm-9">
+                            <textarea name="" id="" cols="30" rows="10" name="goods_brief"><?= $data['goods_brief']?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 商品详细描述 ：</label>
+                        <div class="col-sm-9">
+                            <textarea name="" id="" cols="30" rows="10" name="goods_brief" name="goods_desc" ><?= $data['goods_desc']?></textarea>
+                        </div>
                     </div>
                     <div class="clearfix form-actions">
                         <div class="col-md-offset-3 col-md-9">
-                            <button class="btn btn-info" type="submit" id="submit">
-                                <i class="icon-ok bigger-110"></i>
-                                Submit
-                            </button>
+                            <input type="submit" class="btn btn-info" value="添加">
                             &nbsp; &nbsp; &nbsp;
                             <button class="btn" type="reset">
                                 <i class="icon-undo bigger-110"></i>
@@ -90,7 +204,6 @@
                 </form>
                 <!-- form表单结束-->
                 <div class="hr hr-18 dotted hr-double"></div>
-
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.page-content -->
@@ -144,15 +257,6 @@
                 size: size
             });
         })
-        $("#cat_name").click(function(){
-            var submit=$("#cat_name").val();
-            alert(submit);
-            if(submit=="")
-            {
-                return false;  // 返回false，a标签就会终止动作，不跳转
-            }else{
-                return true;   // 返回true ，a标签继续执行后续操作，跳转
-            }
 
         $('.sparkline').each(function(){
             var $box = $(this).closest('.infobox');
@@ -312,5 +416,33 @@
             else $(this).closest('li').removeClass('selected');
         });
     })
+
+    /*
+    商品属性弹出
+     */
+    function tanchu() {
+        var cats_id = $('#cats_id').val();
+        var str = "";
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url()?>/goods/find_cats",
+            data: "cats_id="+cats_id,
+            dataType:'json',
+            success: function(msg){
+
+               for(i in msg)
+                {
+                    str += msg[i]['attr_name'];
+                    str += "<input type='text' name='attr_name[]'>";
+                    str += "<input type='hidden' name='y_id[]' value='"+msg[i].attr_id+"'>";
+
+                }
+                $('#tanchukuang').html(str);
+                $('#tanchukuang').show();
+                //alert(msg);
+            }
+        });
+
+    }
 </script>
 </html>

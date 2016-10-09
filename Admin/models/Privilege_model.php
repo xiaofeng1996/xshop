@@ -16,9 +16,9 @@ class Privilege_model extends CI_Model
 
 	//查询字段数据
 	
-	public function sel(){
-	
-		return  $this->db->get(self::TB_pri)->result_array();
+	public function sel($limit,$offset1){
+		
+		return  $this->db->limit($limit,$offset1)->get(self::TB_pri)->result_array();
 	
 	}
 

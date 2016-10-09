@@ -73,15 +73,16 @@ class Category extends MY_Controller
     /*
      *  权限树
      */
-    protected function nodetree($data,$pid=0){
-        $arr  =array();
-        foreach($data as $k=>$v)
-        {
-           if($v['parent_id']==$pid){
-               $arr[$k] = $v;
-               $arr[$k]['son']=  $this->nodetree($data,$v['cat_id']);
-           }
+    protected function nodetree($data, $pid = 0)
+    {
+        $arr = array();
+        foreach ($data as $k => $v) {
+            if ($v['parent_id'] == $pid) {
+                $arr[$k] = $v;
+                $arr[$k]['son'] = $this->nodetree($data, $v['cat_id']);
+            }
         }
+        
         return $arr;
     }
     /*
@@ -99,5 +100,29 @@ class Category extends MY_Controller
 
             echo 0;
         }
+    }
+    /*
+     * 修改数据
+     */
+    public  function  update(){
+        $id = $this->uri->segment(3, 0);
+        $data['data']=$this->db->where("cat_id",$id)->get('category')->row_array(); //查询出所有分类
+        $up=$this->db->get('category')->result_array(); //查询出所有分类
+        $data['up'] = $this->nodetree($up,0);
+        $this->load->view("admin/Category/category_update.html",$data);
+
+    }
+    public  function  updates(){
+        $id = $this->input->post('cat_id');
+        $data = $this->input->post(); //添加入库
+        $updata = $this->db->where("cat_id",$id)->update("category",$data);
+        if($updata){
+
+            echo "<script>alert('修改成功');location.href='".site_url('Category/category_list')."'</script>";
+        }else{
+
+            echo "<script>alert('修改失败');location.href='".site_url('Category/category_list')."'</script>";
+        }
+
     }
 }

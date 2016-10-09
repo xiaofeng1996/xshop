@@ -13,10 +13,10 @@
         <ul class="breadcrumb">
             <li>
                 <i class="icon-home home-icon"></i>
-                <a href="#">首页</a>
+                <a href="<?php echo site_url('index/index')?>">首页</a>
             </li>
             <li>
-                <a href="#">品牌管理</a>
+                <a href="<?php echo site_url('brand/brand_list')?>">品牌管理</a>
             </li>
             <li class="active">品牌列表</li>
         </ul><!-- .breadcrumb -->
@@ -70,7 +70,7 @@
                                  ?></td>
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
-                                            <a href="javascript:void(0)" class="" id="">修改</a>
+                                            <a href="<?php echo site_url().'/brand/update/'.$value['brand_id'];?>" class="" id="">修改</a>
                                             <a href="javascript:void(0)" id="<?= $value['brand_id']?>"  class="delete">删除</a>
                                         </div>
                                     </td>
@@ -82,10 +82,6 @@
                     </div><!-- /span -->
                 </div><!-- /row -->
                 <div class="hr hr-18 dotted hr-double"></div>
-                <h4 class="pink">
-                    <i class="icon-hand-right icon-animated-hand-pointer blue"></i>
-                    <a href="#modal-table" role="button" class="green" data-toggle="modal"> 这是分页 </a>
-                </h4>
                 <div class="hr hr-18 dotted hr-double"></div>
                 <div id="modal-table" class="modal fade" tabindex="-1">
                     <div class="modal-dialog">
@@ -101,6 +97,12 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div><!-- PAGE CONTENT ENDS -->
+                <div class="hr hr-18 dotted hr-double"></div>
+                <h4 class="pink">
+                    <i class="icon-hand-right icon-animated-hand-pointer blue"></i>
+                    <!--  分页字符串   -->
+                    <?php echo $pagestr;  ?>
+                </h4>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.page-content -->

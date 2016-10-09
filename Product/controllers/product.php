@@ -33,7 +33,6 @@ class Product extends MY_Controller {
 		if(!empty($keywords)) {
 			$where .= " and `keywords` like '%$keywords%'";
 		}
-		//echo $where;die;
 		//加载分页类
 		$this->load->library('pagination');
 		//请求的URL地址
@@ -55,22 +54,18 @@ class Product extends MY_Controller {
 		//生成分页字符串
 		$data['pagestr']=$this->pagination->create_links();
 		$limit=$config['per_page'];
-		//echo $limit;die;
-		//echo $offset;die;
+		
 		if($offset==""){
 			$offset1 = 0;
 		}else{
 			$offset1 = ($offset-1)*$config['per_page'];
 		}
-		//echo $offset1;die;
 		$where1 = strlen($where);
-		//echo $where1;die;
 		if($where1 == 1){
 			$data['data'] = $this -> db -> where('is_delete',0)->limit($limit,$offset1) ->get('product_goods')->result_array();
 		}else{
 			$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('product_goods')->result_array();
 		}
-		//	echo $this->db->last_query();die;
 		//查询出分类 为搜索准备
 		$data1=$this->db->get('category')->result_array();
 		$data['type'] = $this->nodetree($data1,0);
@@ -90,14 +85,13 @@ class Product extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/product/';
+			$config['upload_path'] = 'public/upload/product/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
 			$config['max_size'] = '5000';
 			$config['max_width'] = '5000';
 			$config['max_height'] = '1000';
-			//print_r($config);die;
 			$this->load->library('upload', $config);
 
 			if($this->upload->do_upload('goods_img')){
@@ -137,8 +131,8 @@ class Product extends MY_Controller {
 						echo "<script>alert('添加成功');location.href='".site_url('product/index')."'</script>";
 					}
 				}
-
-
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('product/index')."'</script>";
 			}
 		}else{
 			//展示添加页面
@@ -157,6 +151,76 @@ class Product extends MY_Controller {
 	}
 
 
+	/*
+	 * 删除商品
+	 */
+	public function del_goods(){
+		$goods_id = $this->uri->segment(3, 0);
+		$data = array(
+			'is_delete' => 1
+		);
+		$res = $this->db->where('goods_id', $goods_id)->update('product_goods',$data);
+		if($res){
+			redirect('product/index');
+		}
+	}
+
+	/*
+	 * 修改商品
+	 */
+	public function up_goods(){
+		if($this->input->post()){
+			$goods_img = $_FILES['goods_img'];
+			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
+			$filename=time().rand(1000,9999).'.'.$img_type;
+			$config['upload_path'] = 'public/upload/product/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['file_name'] = $filename;
+			$config['encrypt_name'] = false;
+			$config['max_size'] = '10000';
+			$config['max_width'] = '10000';
+			$config['max_height'] = '5000';
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('goods_img')){
+				$goods_id = $this->input->post('goods_id');
+				$data = $this->input->post();
+				$data['goods_img'] = $config['upload_path'].$filename;
+				$data['last_update'] = date("Y-m-d H:i:s",time());
+				if(empty($data['is_new'])){
+					$data['is_new']=0;
+				}
+				if(empty($data['is_hot'])){
+					$data['is_hot']=0;
+				}
+				if(empty($data['is_best'])){
+					$data['is_best']=0;
+				}
+				$res = $this->db->where('goods_id',$goods_id)->update('product_goods',$data);
+				if($res){
+					redirect('product/index');
+				}
+
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('product/index')."'</script>";
+			}
+		}else{
+			$goods_id = $this->uri->segment(3,0);
+			//查询商品
+			$data['data'] = $this->db->where('goods_id',$goods_id)->get('product_goods')->row_array();
+			//查询商品类型
+			$data['type1'] = $this ->db->where('cat_id',$data['data']['cat_id'])->get('category')->row_array();
+			$type=$this->db->get('category')->result_array();
+			$data['type'] = $this->nodetree($type,0);
+
+			//查询商品品牌
+			$data['brand1'] = $this->db->where('brand_id',$data['data']['brand_id'])->get('brand')->row_array();
+			$data['brand'] = $this->db->get('brand')->result_array();
+			$this -> load->view('admin/product/up_goods.html',$data);
+		}
+	}
+
+
+
 
 
 	/*
@@ -165,10 +229,8 @@ class Product extends MY_Controller {
 	function find_cats(){
 		$cats_id = $this -> input -> post('cats_id');
 		$one_cats_id = $this -> db -> where('cats_id',$cats_id) -> get('goods_type')->result_array();
-		//print_r($one_cats_id);die();
 		$cats_id_one = $one_cats_id[0]['cats_id'];
 		$attr = $this -> db ->where('cats_id',$cats_id_one) -> get('attribute')->result_array();
-		//print_r($attr);die;
 		echo json_encode($attr);die;
 	}
 

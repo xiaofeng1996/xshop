@@ -70,7 +70,7 @@
                                                 </thead>
 
                                                 <tbody>
-                                                <?php foreach($arr as $key => $val ){ ?>
+                                                <?php foreach($data as $key => $val ){ ?>
                                                     <tr class="d" id="<?=$val['id']?>" pid="<?=$val['parent_id']?>">
                                                         <td class="center">
                                                             <label>
@@ -144,8 +144,7 @@
       <div class="hr hr-18 dotted hr-double"></div>
 
                 <h4 class="pink">
-                    <i class="icon-hand-right green"></i>
-                    <a href="#modal-form" role="button" class="blue" data-toggle="modal"></a>
+                    <?php echo $pagestr;  ?>
                 </h4>
                     <div class="alert alert-block alert-success" style="width:200px;height: 100px; position: fixed;top: 0px;left: 0px;right: 0px; bottom: 0px; margin: auto; display: none;">
                                             <button type="button" class="close" data-dismiss="alert">

@@ -86,14 +86,15 @@ class Goods extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/';
+			$config['upload_path'] = 'public/upload/goods/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
-			$config['max_size'] = '5000';
-			$config['max_width'] = '5000';
-			$config['max_height'] = '1000';
+			$config['max_size'] = '10000';
+			$config['max_width'] = '10000';
+			$config['max_height'] = '5000';
 			$this->load->library('upload', $config);
+			//var_dump($this->upload->do_upload('goods_img'));die;
 			if($this->upload->do_upload('goods_img')){
 				//上传成功添加商品
 				$data = $this -> input ->post();
@@ -124,19 +125,20 @@ class Goods extends MY_Controller {
 						}
 					}
 					foreach ($data1 as $v){
-						$this->db->insert('x_goods_attr', $v);
-					}
-					if($res > 0){
-						echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
+						$bool = $this->db->insert('x_goods_attr', $v);
 					}
 				}
+				if($res>0){
+					echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
+				}
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('goods/index')."'</script>";
 			}
 		}else{
 			//展示添加页面
 			//查询出所有分类
 			$data=$this->db->get('category')->result_array();
 			$datas['type'] = $this->nodetree($data,0);
-
 			//查询商品品牌
 			$datas['brand'] = $this->db->get('brand')->result_array();
 			
@@ -146,6 +148,81 @@ class Goods extends MY_Controller {
 			$this->load->view('admin/goods/add_goods.html',$datas);
 		}
 	}
+
+
+	/*
+	 * 删除商品
+	 */
+	public function del_goods(){
+		$goods_id = $this->uri->segment(3, 0);
+		$data = array(
+			'is_delete' => 1
+		);
+		$res = $this->db->where('goods_id', $goods_id)->update('goods',$data);
+		if($res){
+			redirect('goods/index');
+		}
+	}
+
+	/*
+	 * 修改商品
+	 */
+	public function up_goods(){
+		if($this->input->post()){
+			$goods_img = $_FILES['goods_img'];
+			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
+			$filename=time().rand(1000,9999).'.'.$img_type;
+			$config['upload_path'] = 'public/upload/goods/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['file_name'] = $filename;
+			$config['encrypt_name'] = false;
+			$config['max_size'] = '10000';
+			$config['max_width'] = '10000';
+			$config['max_height'] = '5000';
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('goods_img')){
+				$goods_id = $this->input->post('goods_id');
+				$data = $this->input->post();
+				$data['goods_img'] = $config['upload_path'].$filename;
+				$data['last_update'] = date("Y-m-d H:i:s",time());
+				if(empty($data['is_new'])){
+					$data['is_new']=0;
+				}
+				if(empty($data['is_hot'])){
+					$data['is_hot']=0;
+				}
+				if(empty($data['is_best'])){
+					$data['is_best']=0;
+				}
+				$res = $this->db->where('goods_id',$goods_id)->update('goods',$data);
+				if($res){
+					redirect('goods/index');
+				}
+
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('goods/index')."'</script>";
+			}
+
+		}else{
+			$goods_id = $this->uri->segment(3,0);
+			//查询商品
+			$data['data'] = $this->db->where('goods_id',$goods_id)->get('goods')->row_array();
+			//查询商品类型
+			$data['type1'] = $this ->db->where('cat_id',$data['data']['cat_id'])->get('category')->row_array();
+			$type=$this->db->get('category')->result_array();
+			$data['type'] = $this->nodetree($type,0);
+			
+			//查询商品品牌
+			$data['brand1'] = $this->db->where('brand_id',$data['data']['brand_id'])->get('brand')->row_array();
+			$data['brand'] = $this->db->get('brand')->result_array();
+			
+			$this -> load->view('admin/goods/up_goods.html',$data);
+		}
+	}
+
+
+
+
 	/*
 	 * 查询商品类型
 	 */
@@ -158,16 +235,19 @@ class Goods extends MY_Controller {
 		//print_r($attr);die;
 		echo json_encode($attr);die;
 	}
+
+
 	/*
     *  权限树
     */
 	protected function nodetree($data,$pid=0){
-		$arr  =array();
-		foreach($data as $k=>$v)
+		$arr=array();
+		foreach($data as $key=>$v)
 		{
-			if($v['parent_id']==$pid){
-				$arr[$k] = $v;
-				$arr[$k]['son']=  $this->nodetree($data,$v['cat_id']);
+			if($v['parent_id']==$pid)
+			{
+				$arr[$key]=$v;
+				$arr[$key]['son']= $this->nodetree($data,$v['cat_id']);
 			}
 		}
 		return $arr;
