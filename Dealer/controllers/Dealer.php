@@ -55,14 +55,13 @@ class Dealer extends MY_Controller {
 		//生成分页字符串
 		$data['pagestr']=$this->pagination->create_links();
 		$limit=$config['per_page'];
-		//echo $limit;die;
-		//echo $offset;die;
+
 		if($offset==""){
 			$offset1 = 0;
 		}else{
 			$offset1 = ($offset-1)*$config['per_page'];
 		}
-		//echo $offset1;die;
+
 		$where1 = strlen($where);
 		//echo $where1;die;
 		if($where1 == 1){
@@ -70,7 +69,6 @@ class Dealer extends MY_Controller {
 		}else{
 			$data['data'] = $this -> db -> where($where)-> where('is_delete',0)->limit($limit,$offset1) ->get('dea_goods')->result_array();
 		}
-		//	echo $this->db->last_query();die;
 		//查询出分类 为搜索准备
 		$data1=$this->db->get('category')->result_array();
 		$data['type'] = $this->nodetree($data1,0);
@@ -90,14 +88,13 @@ class Dealer extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/dealer/';
+			$config['upload_path'] = 'public/upload/dealer/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
 			$config['max_size'] = '5000';
 			$config['max_width'] = '5000';
 			$config['max_height'] = '1000';
-			//print_r($config);die;
 			$this->load->library('upload', $config);
 
 			if($this->upload->do_upload('goods_img')){
@@ -137,8 +134,8 @@ class Dealer extends MY_Controller {
 						echo "<script>alert('添加成功');location.href='".site_url('dealer/index')."'</script>";
 					}
 				}
-
-
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('dealer/index')."'</script>";
 			}
 		}else{
 			//展示添加页面
@@ -180,7 +177,7 @@ class Dealer extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/dealer/';
+			$config['upload_path'] = 'public/upload/dealer/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
@@ -206,7 +203,8 @@ class Dealer extends MY_Controller {
 				if($res){
 					redirect('dealer/index');
 				}
-
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('dealer/index')."'</script>";
 			}
 		}else{
 			$goods_id = $this->uri->segment(3,0);
@@ -220,7 +218,6 @@ class Dealer extends MY_Controller {
 			//查询商品品牌
 			$data['brand1'] = $this->db->where('brand_id',$data['data']['brand_id'])->get('brand')->row_array();
 			$data['brand'] = $this->db->get('brand')->result_array();
-			//print_r($data);die;
 			$this -> load->view('admin/dealer/up_goods.html',$data);
 		}
 	}
@@ -235,10 +232,8 @@ class Dealer extends MY_Controller {
 	function find_cats(){
 		$cats_id = $this -> input -> post('cats_id');
 		$one_cats_id = $this -> db -> where('cats_id',$cats_id) -> get('goods_type')->result_array();
-		//print_r($one_cats_id);die();
 		$cats_id_one = $one_cats_id[0]['cats_id'];
 		$attr = $this -> db ->where('cats_id',$cats_id_one) -> get('attribute')->result_array();
-		//print_r($attr);die;
 		echo json_encode($attr);die;
 	}
 

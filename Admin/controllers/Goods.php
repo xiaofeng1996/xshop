@@ -86,7 +86,7 @@ class Goods extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/goods/';
+			$config['upload_path'] = 'public/upload/goods/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
@@ -131,13 +131,14 @@ class Goods extends MY_Controller {
 				if($res>0){
 					echo "<script>alert('添加成功');location.href='".site_url('goods/index')."'</script>";
 				}
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('goods/index')."'</script>";
 			}
 		}else{
 			//展示添加页面
 			//查询出所有分类
 			$data=$this->db->get('category')->result_array();
 			$datas['type'] = $this->nodetree($data,0);
-
 			//查询商品品牌
 			$datas['brand'] = $this->db->get('brand')->result_array();
 			
@@ -171,7 +172,7 @@ class Goods extends MY_Controller {
 			$goods_img = $_FILES['goods_img'];
 			$img_type=substr($goods_img['name'],strrpos($goods_img['name'],'.')+1);
 			$filename=time().rand(1000,9999).'.'.$img_type;
-			$config['upload_path'] = './public/upload/goods/';
+			$config['upload_path'] = 'public/upload/goods/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['file_name'] = $filename;
 			$config['encrypt_name'] = false;
@@ -198,6 +199,8 @@ class Goods extends MY_Controller {
 					redirect('goods/index');
 				}
 
+			}else{
+				echo "<script>alert('文件上传失败');location.href='".site_url('goods/index')."'</script>";
 			}
 
 		}else{
@@ -208,11 +211,11 @@ class Goods extends MY_Controller {
 			$data['type1'] = $this ->db->where('cat_id',$data['data']['cat_id'])->get('category')->row_array();
 			$type=$this->db->get('category')->result_array();
 			$data['type'] = $this->nodetree($type,0);
-
+			
 			//查询商品品牌
 			$data['brand1'] = $this->db->where('brand_id',$data['data']['brand_id'])->get('brand')->row_array();
 			$data['brand'] = $this->db->get('brand')->result_array();
-			//print_r($data);die;
+			
 			$this -> load->view('admin/goods/up_goods.html',$data);
 		}
 	}
@@ -238,12 +241,13 @@ class Goods extends MY_Controller {
     *  权限树
     */
 	protected function nodetree($data,$pid=0){
-		$arr  =array();
-		foreach($data as $k=>$v)
+		$arr=array();
+		foreach($data as $key=>$v)
 		{
-			if($v['parent_id']==$pid){
-				$arr[$k] = $v;
-				$arr[$k]['son']=  $this->nodetree($data,$v['cat_id']);
+			if($v['parent_id']==$pid)
+			{
+				$arr[$key]=$v;
+				$arr[$key]['son']= $this->nodetree($data,$v['cat_id']);
 			}
 		}
 		return $arr;
